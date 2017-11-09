@@ -2,8 +2,8 @@
 
 return [
     'openapi-file' => __DIR__ . '/swagger.json',
-    'namespace' => 'Dockent\\Connector',
-    'directory' => __DIR__ . '/src',
+    'namespace' => 'Dockent\\OpenAPI',
+    'directory' => __DIR__ . '/api',
     'date-format' => DateTime::RFC3339,
     'reference' => true
 ];

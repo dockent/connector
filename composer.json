@@ -17,6 +17,6 @@
         }
     },
     "scripts": {
-        "generate": "php vendor/bin/jane-openapi generate swagger.json Dockent\\Connector src/"
+        "generate": "php vendor/bin/jane-openapi generate swagger.json 'Dockent\\OpenAPI' api/"
     }
 }
