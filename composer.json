@@ -1,0 +1,22 @@
+{
+    "name": "scary_donetskiy/dockent-connector",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Vladyslav Pozdnyakov",
+            "email": "scary_donetskiy@live.com"
+        }
+    ],
+    "require": {
+        "jane/open-api": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dockent\\Connector\\": "src/",
+            "Dockent\\OpenAPI\\": "api/"
+        }
+    },
+    "scripts": {
+        "generate": "php vendor/bin/jane-openapi generate swagger.json Dockent\\Connector src/"
+    }
+}
