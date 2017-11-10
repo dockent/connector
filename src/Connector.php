@@ -8,6 +8,7 @@
 
 namespace Dockent\Connector;
 
+use Dockent\OpenAPI\Normalizer\NormalizerFactory;
 use Dockent\OpenAPI\Resource\ConfigResource;
 use Dockent\OpenAPI\Resource\ContainerResource;
 use Dockent\OpenAPI\Resource\DefaultResource;
@@ -24,7 +25,14 @@ use Dockent\OpenAPI\Resource\SwarmResource;
 use Dockent\OpenAPI\Resource\SystemResource;
 use Dockent\OpenAPI\Resource\TaskResource;
 use Dockent\OpenAPI\Resource\VolumeResource;
+use GuzzleHttp\Client;
+use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
+use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Joli\Jane\OpenApi\Runtime\Client\Resource;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class Connector
@@ -54,6 +62,33 @@ class Connector
     private $storage = [];
 
     /**
+     * @var GuzzleAdapter
+     */
+    private $httpClient;
+
+    /**
+     * @var GuzzleMessageFactory
+     */
+    private $requestFactory;
+
+    /**
+     * @var Serializer
+     */
+    private $serializer;
+
+    /**
+     * Connector constructor.
+     */
+    public function __construct()
+    {
+        $this->httpClient = new GuzzleAdapter(new Client([]));
+        $this->requestFactory = new GuzzleMessageFactory();
+        $this->serializer = new Serializer(NormalizerFactory::create(), [
+            new JsonEncoder(new JsonEncode(), new JsonDecode())
+        ]);
+    }
+
+    /**
      * @param string $name
      * @param array $arguments
      * @return Resource
@@ -62,11 +97,10 @@ class Connector
     public function __call(string $name, array $arguments): Resource
     {
         if (!array_key_exists($name, $this->storage)) {
-            $className = 'Resource\\' . $name;
-            if (!class_exists($className)) {
-                throw new \Exception("Class '$className' is not exist");
+            if (!class_exists($name)) {
+                throw new \Exception("Class '$name' is not exist");
             }
-            $resource = new $className(...$arguments);
+            $resource = new $name($this->httpClient, $this->requestFactory, $this->serializer);
             $this->storage[$name] = $resource;
         }
 
