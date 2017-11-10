@@ -81,7 +81,11 @@ class Connector
      */
     public function __construct()
     {
-        $this->httpClient = new GuzzleAdapter(new Client([]));
+        $connectionSettings = [
+            'remote_socket' => 'unix:///var/run/docker.sock',
+            'ssl' => true
+        ];
+        $this->httpClient = new GuzzleAdapter(new Client($connectionSettings));
         $this->requestFactory = new GuzzleMessageFactory();
         $this->serializer = new Serializer(NormalizerFactory::create(), [
             new JsonEncoder(new JsonEncode(), new JsonDecode())
