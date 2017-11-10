@@ -101,10 +101,11 @@ class Connector
     public function __call(string $name, array $arguments): Resource
     {
         if (!array_key_exists($name, $this->storage)) {
-            if (!class_exists($name)) {
-                throw new \Exception("Class '$name' is not exist");
+            $className = "Dockent\\OpenAPI\\Resource\\$name";
+            if (!class_exists($className)) {
+                throw new \Exception("Class '$className' is not exist");
             }
-            $resource = new $name($this->httpClient, $this->requestFactory, $this->serializer);
+            $resource = new $className($this->httpClient, $this->requestFactory, $this->serializer);
             $this->storage[$name] = $resource;
         }
 
