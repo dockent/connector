@@ -26,6 +26,7 @@ use Dockent\OpenAPI\Resource\SystemResource;
 use Dockent\OpenAPI\Resource\TaskResource;
 use Dockent\OpenAPI\Resource\VolumeResource;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Joli\Jane\OpenApi\Runtime\Client\Resource;
@@ -81,9 +82,10 @@ class Connector
      */
     public function __construct()
     {
+        $handler = new CurlHandler();
         $connectionSettings = [
-            'remote_socket' => 'unix:///var/run/docker.sock',
-            'ssl' => true
+            'handler' => HandlerStack::create($handler),
+            'base_uri' => 'http:/'
         ];
         $this->httpClient = new GuzzleAdapter(new Client($connectionSettings));
         $this->requestFactory = new GuzzleMessageFactory();
