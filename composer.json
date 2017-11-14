@@ -8,10 +8,13 @@
         }
     ],
     "require": {
-        "jane/open-api": "^3.1",
         "php-http/guzzle6-adapter": "^1.1",
         "guzzlehttp/psr7": "^1.4",
-        "php-http/message": "^1.6"
+        "php-http/message": "^1.6",
+        "jane/openapi-runtime": "^2.0"
+    },
+    "require-dev": {
+        "jane/open-api": "^3.1"
     },
     "autoload": {
         "psr-4": {
