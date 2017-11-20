@@ -10,7 +10,7 @@ namespace Dockent\Connector;
 
 use Dockent\OpenAPI\Normalizer\NormalizerFactory;
 use Dockent\OpenAPI\Resource\ConfigResource;
-use Dockent\OpenAPI\Resource\ContainerResource;
+use Dockent\Connector\resource\ContainerResource;
 use Dockent\OpenAPI\Resource\DefaultResource;
 use Dockent\OpenAPI\Resource\DistributionResource;
 use Dockent\OpenAPI\Resource\ExecResource;
@@ -63,6 +63,13 @@ class Connector
     private $storage = [];
 
     /**
+     * @var array
+     */
+    private $classMap = [
+        'ContainerResource' => 'Dockent\Connector\resource\ContainerResource'
+    ];
+
+    /**
      * @var GuzzleAdapter
      */
     private $httpClient;
@@ -103,7 +110,11 @@ class Connector
     public function __call(string $name, array $arguments): Resource
     {
         if (!array_key_exists($name, $this->storage)) {
-            $className = "Dockent\\OpenAPI\\Resource\\$name";
+            if (array_key_exists($name, $this->classMap)) {
+                $className = $this->classMap[$name];
+            } else {
+                $className = "Dockent\\OpenAPI\\Resource\\$name";
+            }
             if (!class_exists($className)) {
                 throw new \Exception("Class '$className' is not exist");
             }
