@@ -46,4 +46,31 @@ class ContainerResource extends ContainerResourceAPI
         }
         return $response;
     }
+
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @param string $fetch
+     * @return array|object|\Dockent\OpenAPI\Model\ErrorResponse
+     */
+    public function containerInspect($id, $parameters = [], $fetch = self::FETCH_OBJECT)
+    {
+        $queryParam = new QueryParam();
+        $queryParam->setDefault('size', false);
+        $url = '/v1.32/containers/' . urlencode($id) . '/json' . ('?' . $queryParam->buildQueryString($parameters));
+        $headers = array_merge(['Host' => 'localhost', 'Accept' => ['application/json']],
+            $queryParam->buildHeaders($parameters));
+        $body = $queryParam->buildFormDataString($parameters);
+        $request = $this->messageFactory->createRequest('GET', $url, $headers, $body);
+        $response = $this->httpClient->sendRequest($request);
+        switch ($response->getStatusCode()) {
+            case '200':
+                return json_decode((string)$response->getBody(), true);
+            case '400':
+            case '500':
+                return $this->serializer->deserialize((string)$response->getBody(),
+                    'Dockent\OpenAPI\Model\ErrorResponse', 'json');
+        }
+        return $response;
+    }
 }
