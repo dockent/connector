@@ -14,7 +14,7 @@
         "jane/openapi-runtime": "^2.0"
     },
     "require-dev": {
-        "jane/open-api": "^3.1"
+        "jane/open-api": "master"
     },
     "autoload": {
         "psr-4": {
@@ -24,5 +24,12 @@
     },
     "scripts": {
         "generate": "php vendor/bin/jane-openapi generate swagger.json 'Dockent\\OpenAPI' api/"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ScaryDonetskiy/openapi.git"
+        }
+    ],
+    "minimum-stability": "dev"
 }

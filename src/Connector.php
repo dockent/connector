@@ -8,9 +8,8 @@
 
 namespace Dockent\Connector;
 
-use Dockent\OpenAPI\Normalizer\NormalizerFactory;
 use Dockent\OpenAPI\Resource\ConfigResource;
-use Dockent\Connector\resource\ContainerResource;
+use Dockent\OpenAPI\Resource\ContainerResource;
 use Dockent\OpenAPI\Resource\DefaultResource;
 use Dockent\OpenAPI\Resource\DistributionResource;
 use Dockent\OpenAPI\Resource\ExecResource;
@@ -30,9 +29,6 @@ use GuzzleHttp\HandlerStack;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Joli\Jane\OpenApi\Runtime\Client\Resource;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 
 /**
@@ -65,9 +61,7 @@ class Connector
     /**
      * @var array
      */
-    private $classMap = [
-        'ContainerResource' => 'Dockent\Connector\resource\ContainerResource'
-    ];
+    private $classMap = [];
 
     /**
      * @var GuzzleAdapter
@@ -96,9 +90,7 @@ class Connector
         ];
         $this->httpClient = new GuzzleAdapter(new Client($connectionSettings));
         $this->requestFactory = new GuzzleMessageFactory();
-        $this->serializer = new Serializer(NormalizerFactory::create(), [
-            new JsonEncoder(new JsonEncode(), new JsonDecode())
-        ]);
+        $this->serializer = new Serializer();
     }
 
     /**
