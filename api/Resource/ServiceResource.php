@@ -52,7 +52,7 @@ class ServiceResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\ServicesCreatePostBody $body 
+     * @param array $body 
      * @param array  $parameters {
      *     @var string $X-Registry-Auth A base64-encoded auth configuration for pulling from private registries. [See the authentication section for details.](#section/Authentication)
      * }
@@ -60,7 +60,7 @@ class ServiceResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function serviceCreate(\Dockent\OpenAPI\Model\ServicesCreatePostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function serviceCreate($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('X-Registry-Auth', NULL);
@@ -182,7 +182,7 @@ class ServiceResource extends Resource
      * 
      *
      * @param string $id ID or name of service.
-     * @param \Dockent\OpenAPI\Model\ServicesIdUpdatePostBody $body 
+     * @param array $body 
      * @param array  $parameters {
      *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes.
      *     @var string $registryAuthFrom If the X-Registry-Auth header is not specified, this parameter indicates where to find registry authorization credentials. The valid values are `spec` and `previous-spec`.
@@ -193,7 +193,7 @@ class ServiceResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function serviceUpdate($id, \Dockent\OpenAPI\Model\ServicesIdUpdatePostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function serviceUpdate($id, $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('version');

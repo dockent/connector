@@ -9,13 +9,13 @@ class SystemResource extends Resource
     /**
      * Validate credentials for a registry and, if available, get an identity token for accessing the registry without password.
      *
-     * @param \Dockent\OpenAPI\Model\AuthConfig $authConfig Authentication to check
+     * @param array $authConfig Authentication to check
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function systemAuth(\Dockent\OpenAPI\Model\AuthConfig $authConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function systemAuth($authConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/auth';

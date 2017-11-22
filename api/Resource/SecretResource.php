@@ -52,13 +52,13 @@ class SecretResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\SecretsCreatePostBody $body 
+     * @param array $body 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function secretCreate(\Dockent\OpenAPI\Model\SecretsCreatePostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function secretCreate($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/secrets/create';
@@ -169,7 +169,7 @@ class SecretResource extends Resource
      * 
      *
      * @param string $id The ID or name of the secret
-     * @param \Dockent\OpenAPI\Model\SecretSpec $body The spec of the secret to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [SecretInspect endpoint](#operation/SecretInspect) response values.
+     * @param array $body The spec of the secret to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [SecretInspect endpoint](#operation/SecretInspect) response values.
      * @param array  $parameters {
      *     @var int $version The version number of the secret object being updated. This is required to avoid conflicting writes.
      * }
@@ -177,7 +177,7 @@ class SecretResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function secretUpdate($id, \Dockent\OpenAPI\Model\SecretSpec $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function secretUpdate($id, $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('version');

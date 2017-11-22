@@ -135,13 +135,13 @@ class NetworkResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\NetworksCreatePostBody $networkConfig Network configuration
+     * @param array $networkConfig Network configuration
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function networkCreate(\Dockent\OpenAPI\Model\NetworksCreatePostBody $networkConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function networkCreate($networkConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/networks/create';
@@ -174,13 +174,13 @@ class NetworkResource extends Resource
      * 
      *
      * @param string $id Network ID or name
-     * @param \Dockent\OpenAPI\Model\NetworksIdConnectPostBody $container 
+     * @param array $container 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function networkConnect($id, \Dockent\OpenAPI\Model\NetworksIdConnectPostBody $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function networkConnect($id, $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/networks/{id}/connect';
@@ -214,13 +214,13 @@ class NetworkResource extends Resource
      * 
      *
      * @param string $id Network ID or name
-     * @param \Dockent\OpenAPI\Model\NetworksIdDisconnectPostBody $container 
+     * @param array $container 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function networkDisconnect($id, \Dockent\OpenAPI\Model\NetworksIdDisconnectPostBody $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function networkDisconnect($id, $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/networks/{id}/disconnect';

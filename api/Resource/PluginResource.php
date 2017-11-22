@@ -324,7 +324,7 @@ class PluginResource extends Resource
     /**
      * 
      *
-     * @param string $tarContext Path to tar containing plugin rootfs and manifest
+     * @param array $tarContext Path to tar containing plugin rootfs and manifest
      * @param array  $parameters {
      *     @var string $name The name of the plugin. The `:latest` tag is optional, and is the default if omitted.
      * }

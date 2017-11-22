@@ -10,13 +10,13 @@ class ExecResource extends Resource
      * Run a command inside a running container.
      *
      * @param string $id ID or name of container
-     * @param \Dockent\OpenAPI\Model\ContainersIdExecPostBody $execConfig Exec configuration
+     * @param array $execConfig Exec configuration
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function containerExec($id, \Dockent\OpenAPI\Model\ContainersIdExecPostBody $execConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function containerExec($id, $execConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/containers/{id}/exec';
@@ -50,13 +50,13 @@ class ExecResource extends Resource
      * Starts a previously set up exec instance. If detach is true, this endpoint returns immediately after starting the command. Otherwise, it sets up an interactive session with the command.
      *
      * @param string $id Exec instance ID
-     * @param \Dockent\OpenAPI\Model\ExecIdStartPostBody $execStartConfig 
+     * @param array $execStartConfig 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function execStart($id, \Dockent\OpenAPI\Model\ExecIdStartPostBody $execStartConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function execStart($id, $execStartConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/exec/{id}/start';

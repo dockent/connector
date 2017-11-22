@@ -46,13 +46,13 @@ class SwarmResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\SwarmInitPostBody $body 
+     * @param array $body 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function swarmInit(\Dockent\OpenAPI\Model\SwarmInitPostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function swarmInit($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/swarm/init';
@@ -84,13 +84,13 @@ class SwarmResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\SwarmJoinPostBody $body 
+     * @param array $body 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function swarmJoin(\Dockent\OpenAPI\Model\SwarmJoinPostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function swarmJoin($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/swarm/join';
@@ -159,7 +159,7 @@ class SwarmResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\SwarmSpec $body 
+     * @param array $body 
      * @param array  $parameters {
      *     @var int $version The version number of the swarm object being updated. This is required to avoid conflicting writes.
      *     @var bool $rotateWorkerToken Rotate the worker join token.
@@ -170,7 +170,7 @@ class SwarmResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function swarmUpdate(\Dockent\OpenAPI\Model\SwarmSpec $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function swarmUpdate($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('version');
@@ -240,13 +240,13 @@ class SwarmResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\SwarmUnlockPostBody $body 
+     * @param array $body 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function swarmUnlock(\Dockent\OpenAPI\Model\SwarmUnlockPostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function swarmUnlock($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/swarm/unlock';

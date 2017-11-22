@@ -61,7 +61,7 @@ class ImageResource extends Resource
     The build is canceled if the client drops the connection by quitting or being killed.
     
     *
-    * @param string $inputStream A tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
+    * @param array $inputStream A tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
     * @param array  $parameters {
     *     @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
     *     @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
@@ -194,7 +194,7 @@ class ImageResource extends Resource
     /**
      * Create an image by either pulling it from a registry or importing it.
      *
-     * @param string $inputImage Image content if the value `-` has been specified in fromSrc query parameter
+     * @param array $inputImage Image content if the value `-` has been specified in fromSrc query parameter
      * @param array  $parameters {
      *     @var string $fromImage Name of the image to pull. The name may include a tag or digest. This parameter may only be used when pulling an image. The pull is cancelled if the HTTP connection is closed.
      *     @var string $fromSrc Source to import. The value may be a URL from which the image can be retrieved or `-` to read the image from the request body. This parameter may only be used when importing an image.
@@ -540,7 +540,7 @@ class ImageResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\ContainerConfig $containerConfig The container configuration
+     * @param array $containerConfig The container configuration
      * @param array  $parameters {
      *     @var string $container The ID or name of the container to commit
      *     @var string $repo Repository name for the created image
@@ -554,7 +554,7 @@ class ImageResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function imageCommit(\Dockent\OpenAPI\Model\ContainerConfig $containerConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function imageCommit($containerConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('container', NULL);
@@ -688,7 +688,7 @@ class ImageResource extends Resource
     For details on the format, see [the export image endpoint](#operation/ImageGet).
     
     *
-    * @param string $imagesTarball Tar archive containing images
+    * @param array $imagesTarball Tar archive containing images
     * @param array  $parameters {
     *     @var bool $quiet Suppress progress details during load.
     * }

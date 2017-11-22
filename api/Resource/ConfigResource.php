@@ -52,13 +52,13 @@ class ConfigResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\ConfigsCreatePostBody $body 
+     * @param array $body 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function configCreate(\Dockent\OpenAPI\Model\ConfigsCreatePostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function configCreate($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/configs/create';
@@ -169,7 +169,7 @@ class ConfigResource extends Resource
      * 
      *
      * @param string $id The ID or name of the config
-     * @param \Dockent\OpenAPI\Model\ConfigSpec $body The spec of the config to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [ConfigInspect endpoint](#operation/ConfigInspect) response values.
+     * @param array $body The spec of the config to update. Currently, only the Labels field can be updated. All other fields must remain unchanged from the [ConfigInspect endpoint](#operation/ConfigInspect) response values.
      * @param array  $parameters {
      *     @var int $version The version number of the config object being updated. This is required to avoid conflicting writes.
      * }
@@ -177,7 +177,7 @@ class ConfigResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function configUpdate($id, \Dockent\OpenAPI\Model\ConfigSpec $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function configUpdate($id, $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('version');

@@ -136,7 +136,7 @@ class NodeResource extends Resource
      * 
      *
      * @param string $id The ID of the node
-     * @param \Dockent\OpenAPI\Model\NodeSpec $body 
+     * @param array $body 
      * @param array  $parameters {
      *     @var int $version The version number of the node object being updated. This is required to avoid conflicting writes.
      * }
@@ -144,7 +144,7 @@ class NodeResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function nodeUpdate($id, \Dockent\OpenAPI\Model\NodeSpec $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function nodeUpdate($id, $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('version');

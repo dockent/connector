@@ -73,7 +73,7 @@ class ContainerResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\ContainersCreatePostBody $body Container to create
+     * @param array $body Container to create
      * @param array  $parameters {
      *     @var string $name Assign the specified name to the container. Must match `/?[a-zA-Z0-9_-]+`.
      * }
@@ -81,7 +81,7 @@ class ContainerResource extends Resource
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function containerCreate(\Dockent\OpenAPI\Model\ContainersCreatePostBody $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function containerCreate($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('name', NULL);
@@ -584,13 +584,13 @@ class ContainerResource extends Resource
      * Change various configuration options of a container without having to recreate it.
      *
      * @param string $id ID or name of the container
-     * @param \Dockent\OpenAPI\Model\ContainersIdUpdatePostBody $update 
+     * @param array $update 
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function containerUpdate($id, \Dockent\OpenAPI\Model\ContainersIdUpdatePostBody $update, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function containerUpdate($id, $update, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/containers/{id}/update';
@@ -1100,7 +1100,7 @@ class ContainerResource extends Resource
      * Upload a tar archive to be extracted to a path in the filesystem of container id.
      *
      * @param string $id ID or name of the container
-     * @param string $inputStream The input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
+     * @param array $inputStream The input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
      * @param array  $parameters {
      *     @var string $path Path to a directory in the container to extract the archive’s contents into. 
      *     @var string $noOverwriteDirNonDir If “1”, “true”, or “True” then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa.

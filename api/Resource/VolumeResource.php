@@ -54,13 +54,13 @@ class VolumeResource extends Resource
     /**
      * 
      *
-     * @param \Dockent\OpenAPI\Model\VolumesCreatePostBody $volumeConfig Volume configuration
+     * @param array $volumeConfig Volume configuration
      * @param array  $parameters List of parameters
      * @param string $fetch      Fetch mode (object or response)
      *
      * @return \Psr\Http\Message\ResponseInterface|string
      */
-    public function volumeCreate(\Dockent\OpenAPI\Model\VolumesCreatePostBody $volumeConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
+    public function volumeCreate($volumeConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $url = '/v1.32/volumes/create';
