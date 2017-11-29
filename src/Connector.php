@@ -29,6 +29,9 @@ use GuzzleHttp\HandlerStack;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Joli\Jane\OpenApi\Runtime\Client\Resource;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 
 /**
@@ -90,7 +93,7 @@ class Connector
         ];
         $this->httpClient = new GuzzleAdapter(new Client($connectionSettings));
         $this->requestFactory = new GuzzleMessageFactory();
-        $this->serializer = new Serializer();
+        $this->serializer = new Serializer([], [new JsonEncoder(new JsonEncode(), new JsonDecode())]);
     }
 
     /**
