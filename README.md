@@ -16,3 +16,9 @@ Update flow:
 3. Check all requests
 4. Fix, if it's necessary, classes in OpenAPI namespace
 5. Contribute it :)
+
+
+
+**P.S.**
+--- 
+You can find edited methods by **_@edited_** annotation in PHPDoc
