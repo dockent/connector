@@ -14,16 +14,20 @@
         "jane/openapi-runtime": "^2.0"
     },
     "require-dev": {
-        "jane/open-api": "master"
+        "jane/open-api": "master",
+        "phpunit/phpunit": "^7.0@dev"
     },
     "autoload": {
         "psr-4": {
             "Dockent\\Connector\\": "src/",
-            "Dockent\\OpenAPI\\": "api/"
+            "Dockent\\OpenAPI\\": "api/",
+            "Dockent\\Connector\\Tests\\": "tests/"
         }
     },
     "scripts": {
-        "generate": "php vendor/bin/jane-openapi generate swagger.json 'Dockent\\OpenAPI' api/"
+        "generate": "php vendor/bin/jane-openapi generate swagger.json 'Dockent\\OpenAPI' api/",
+        "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
+        "testsCoverage": "vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html tests/coverage/ --whitelist src/ tests/"
     },
     "repositories": [
         {
