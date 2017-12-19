@@ -18,6 +18,9 @@ Update flow:
 5. Contribute it :)
 
 
+Edited methods:
+---
+ - \Dockent\OpenAPI\Resource\ContainerResource::containerStats
 
 **P.S.**
 --- 
