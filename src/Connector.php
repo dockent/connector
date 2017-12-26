@@ -13,7 +13,7 @@ use Dockent\OpenAPI\Resource\ContainerResource;
 use Dockent\OpenAPI\Resource\DefaultResource;
 use Dockent\OpenAPI\Resource\DistributionResource;
 use Dockent\OpenAPI\Resource\ExecResource;
-use Dockent\OpenAPI\Resource\ImageResource;
+use Dockent\Connector\resource\ImageResource;
 use Dockent\OpenAPI\Resource\NetworkResource;
 use Dockent\OpenAPI\Resource\NodeResource;
 use Dockent\OpenAPI\Resource\PluginResource;
@@ -64,7 +64,9 @@ class Connector
     /**
      * @var array
      */
-    private $classMap = [];
+    private $classMap = [
+        'ImageResource' => ImageResource::class
+    ];
 
     /**
      * @var GuzzleAdapter
