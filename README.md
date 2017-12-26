@@ -21,6 +21,7 @@ Update flow:
 Edited methods:
 ---
  - \Dockent\OpenAPI\Resource\ContainerResource::containerStats
+ - \Dockent\OpenAPI\Resource\ImageResource::imageBuild **work with** \Dockent\Connector\resource\ImageResource::build
 
 **P.S.**
 --- 
