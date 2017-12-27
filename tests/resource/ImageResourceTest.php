@@ -44,7 +44,7 @@ class ImageResourceTest extends TestCase
     public function testBuild()
     {
         $this->expectOutputString('');
-        $this->instance->build(realpath(__DIR__ . '/../dummy/'));
+        $this->instance->build(realpath(__DIR__ . '/../dummy/'), ['t' => static::IMAGE_NAME]);
     }
 
     public function tearDown()

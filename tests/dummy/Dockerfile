@@ -1,3 +1,2 @@
-FROM scratch
-ADD hello /
-CMD ["/hello"]
+FROM ubuntu:14.04
+RUN mkdir demo

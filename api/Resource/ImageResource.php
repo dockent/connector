@@ -149,7 +149,7 @@ class ImageResource extends Resource
         $response = $promise->wait();
         if (self::FETCH_OBJECT == $fetch) {
             if ('200' == $response->getStatusCode()) {
-                return true;
+                return (string) $response->getBody();
             }
             if ('400' == $response->getStatusCode()) {
                 return (string) $response->getBody();
