@@ -1,6 +1,7 @@
 {
     "name": "dockent/connector",
     "type": "library",
+    "description": "Connector for Docker API",
     "authors": [
         {
             "name": "Vladyslav Pozdnyakov",
