@@ -41,7 +41,7 @@ class SessionExperimentalResource extends Resource
     public function session($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/session';
+        $url = '/v1.39/session';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);

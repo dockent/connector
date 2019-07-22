@@ -18,7 +18,7 @@ class SystemResource extends Resource
     public function systemAuth($authConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/auth';
+        $url = '/v1.39/auth';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($authConfig, 'json');
@@ -52,7 +52,7 @@ class SystemResource extends Resource
     public function systemInfo($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/info';
+        $url = '/v1.39/info';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -83,7 +83,7 @@ class SystemResource extends Resource
     public function systemVersion($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/version';
+        $url = '/v1.39/version';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -114,7 +114,7 @@ class SystemResource extends Resource
     public function systemPing($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/_ping';
+        $url = '/v1.39/_ping';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -139,7 +139,7 @@ class SystemResource extends Resource
     
     Various objects within Docker report events when something happens to them.
     
-    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
+    Containers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `exec_die`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`
     
     Images report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`
     
@@ -163,16 +163,20 @@ class SystemResource extends Resource
     *     @var string $until Show events created until this timestamp then stop streaming.
     *     @var string $filters A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters:
     
+    - `config=<string>` config name or ID
     - `container=<string>` container name or ID
     - `daemon=<string>` daemon name or ID
     - `event=<string>` event type
     - `image=<string>` image name or ID
     - `label=<string>` image or container label
     - `network=<string>` network name or ID
+    - `node=<string>` node ID
     - `plugin`=<string> plugin name or ID
-    - `scope`＝<string> local or swarm
-    - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service` or `secret`
-    - `volume=<string>` volume name or ID
+    - `scope`=<string> local or swarm
+    - `secret=<string>` secret name or ID
+    - `service=<string>` service name or ID
+    - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config`
+    - `volume=<string>` volume name
     
     * }
     * @param string $fetch      Fetch mode (object or response)
@@ -185,7 +189,7 @@ class SystemResource extends Resource
         $queryParam->setDefault('since', NULL);
         $queryParam->setDefault('until', NULL);
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/events';
+        $url = '/v1.39/events';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -219,7 +223,7 @@ class SystemResource extends Resource
     public function systemDataUsage($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/system/df';
+        $url = '/v1.39/system/df';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);

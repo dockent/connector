@@ -28,7 +28,7 @@ class TaskResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/tasks';
+        $url = '/v1.39/tasks';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -63,7 +63,7 @@ class TaskResource extends Resource
     public function taskInspect($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/tasks/{id}';
+        $url = '/v1.39/tasks/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));

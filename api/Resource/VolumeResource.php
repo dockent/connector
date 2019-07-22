@@ -31,7 +31,7 @@ class VolumeResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/volumes';
+        $url = '/v1.39/volumes';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -63,7 +63,7 @@ class VolumeResource extends Resource
     public function volumeCreate($volumeConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/volumes/create';
+        $url = '/v1.39/volumes/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($volumeConfig, 'json');
@@ -98,7 +98,7 @@ class VolumeResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('force', false);
-        $url = '/v1.32/volumes/{name}';
+        $url = '/v1.39/volumes/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -137,7 +137,7 @@ class VolumeResource extends Resource
     public function volumeInspect($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/volumes/{name}';
+        $url = '/v1.39/volumes/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -179,7 +179,7 @@ class VolumeResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/volumes/prune';
+        $url = '/v1.39/volumes/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);

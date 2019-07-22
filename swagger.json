@@ -12,14 +12,14 @@
     "application/json",
     "text/plain"
   ],
-  "basePath": "/v1.32",
+  "basePath": "/v1.39",
   "info": {
     "title": "Docker Engine API",
-    "version": "1.32",
+    "version": "1.39",
     "x-logo": {
       "url": "https://docs.docker.com/images/logo-docker-main.png"
     },
-    "description": "The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.\n\nMost of the client's commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.\n\n# Errors\n\nThe API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:\n\n```\n{\n  \"message\": \"page not found\"\n}\n```\n\n# Versioning\n\nThe API is usually changed in each release of Docker, so API calls are versioned to ensure that clients don't break.\n\nFor Docker Engine 17.07, the API version is 1.31. To lock to this version, you prefix the URL with `/v1.31`. For example, calling `/info` is the same as calling `/v1.31/info`.\n\nEngine releases in the near future should support this version of the API, so your client will continue to work even if it is talking to a newer Engine.\n\nIn previous versions of Docker, it was possible to access the API without providing a version. This behaviour is now deprecated will be removed in a future version of Docker.\n\nThe API uses an open schema model, which means server may add extra properties to responses. Likewise, the server will ignore any extra query parameters and request body properties. When you write clients, you need to ignore additional properties in responses to ensure they do not break when talking to newer Docker daemons.\n\nThis documentation is for version 1.32 of the API. Use this table to find documentation for previous versions of the API:\n\nDocker version  | API version | Changes\n----------------|-------------|---------\n17.07.x | [1.31](https://docs.docker.com/engine/api/v1.31/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-31-api-changes)\n17.06.x | [1.30](https://docs.docker.com/engine/api/v1.30/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-30-api-changes)\n17.05.x | [1.29](https://docs.docker.com/engine/api/v1.29/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-29-api-changes)\n17.04.x | [1.28](https://docs.docker.com/engine/api/v1.28/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-28-api-changes)\n17.03.1 | [1.27](https://docs.docker.com/engine/api/v1.27/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-27-api-changes)\n1.13.1 & 17.03.0 | [1.26](https://docs.docker.com/engine/api/v1.26/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-26-api-changes)\n1.13.0 | [1.25](https://docs.docker.com/engine/api/v1.25/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-25-api-changes)\n1.12.x | [1.24](https://docs.docker.com/engine/api/v1.24/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-24-api-changes)\n1.11.x | [1.23](https://docs.docker.com/engine/api/v1.23/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-23-api-changes)\n1.10.x | [1.22](https://docs.docker.com/engine/api/v1.22/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-22-api-changes)\n1.9.x | [1.21](https://docs.docker.com/engine/api/v1.21/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-21-api-changes)\n1.8.x | [1.20](https://docs.docker.com/engine/api/v1.20/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-20-api-changes)\n1.7.x | [1.19](https://docs.docker.com/engine/api/v1.19/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-19-api-changes)\n1.6.x | [1.18](https://docs.docker.com/engine/api/v1.18/) | [API changes](https://docs.docker.com/engine/api/version-history/#v1-18-api-changes)\n\n# Authentication\n\nAuthentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:\n\n```\n{\n  \"username\": \"string\",\n  \"password\": \"string\",\n  \"email\": \"string\",\n  \"serveraddress\": \"string\"\n}\n```\n\nThe `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.\n\nIf you have already got an identity token from the [`/auth` endpoint](#operation/SystemAuth), you can just pass this instead of credentials:\n\n```\n{\n  \"identitytoken\": \"9cbaf023786cd7...\"\n}\n```\n"
+    "description": "The Engine API is an HTTP API served by Docker Engine. It is the API the Docker client uses to communicate with the Engine, so everything the Docker client can do can be done with the API.\n\nMost of the client's commands map directly to API endpoints (e.g. `docker ps` is `GET /containers/json`). The notable exception is running containers, which consists of several API calls.\n\n# Errors\n\nThe API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:\n\n```\n{\n  \"message\": \"page not found\"\n}\n```\n\n# Versioning\n\nThe API is usually changed in each release, so API calls are versioned to\nensure that clients don't break. To lock to a specific version of the API,\nyou prefix the URL with its version, for example, call `/v1.30/info` to use\nthe v1.30 version of the `/info` endpoint. If the API version specified in\nthe URL is not supported by the daemon, a HTTP `400 Bad Request` error message\nis returned.\n\nIf you omit the version-prefix, the current version of the API (v1.39) is used.\nFor example, calling `/info` is the same as calling `/v1.39/info`. Using the\nAPI without a version-prefix is deprecated and will be removed in a future release.\n\nEngine releases in the near future should support this version of the API,\nso your client will continue to work even if it is talking to a newer Engine.\n\nThe API uses an open schema model, which means server may add extra properties\nto responses. Likewise, the server will ignore any extra query parameters and\nrequest body properties. When you write clients, you need to ignore additional\nproperties in responses to ensure they do not break when talking to newer\ndaemons.\n\n\n# Authentication\n\nAuthentication for registries is handled client side. The client has to send authentication details to various endpoints that need to communicate with registries, such as `POST /images/(name)/push`. These are sent as `X-Registry-Auth` header as a Base64 encoded (JSON) string with the following structure:\n\n```\n{\n  \"username\": \"string\",\n  \"password\": \"string\",\n  \"email\": \"string\",\n  \"serveraddress\": \"string\"\n}\n```\n\nThe `serveraddress` is a domain/IP without a protocol. Throughout this structure, double quotes are required.\n\nIf you have already got an identity token from the [`/auth` endpoint](#operation/SystemAuth), you can just pass this instead of credentials:\n\n```\n{\n  \"identitytoken\": \"9cbaf023786cd7...\"\n}\n```\n"
   },
   "tags": [
     {
@@ -72,6 +72,11 @@
       "description": "Secrets are sensitive data that can be used by services. Swarm mode must be enabled for these endpoints to work.\n"
     },
     {
+      "name": "Config",
+      "x-displayName": "Configs",
+      "description": "Configs are application configurations that can be used by services. Swarm mode must be enabled for these endpoints to work.\n"
+    },
+    {
       "name": "Plugin",
       "x-displayName": "Plugins"
     },
@@ -91,7 +96,8 @@
       "properties": {
         "IP": {
           "type": "string",
-          "format": "ip-address"
+          "format": "ip-address",
+          "description": "Host IP address that the container's port is mapped to"
         },
         "PrivatePort": {
           "type": "integer",
@@ -109,7 +115,8 @@
           "x-nullable": false,
           "enum": [
             "tcp",
-            "udp"
+            "udp",
+            "sctp"
           ]
         }
       },
@@ -218,6 +225,7 @@
           "properties": {
             "Propagation": {
               "description": "A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`.",
+              "type": "string",
               "enum": [
                 "private",
                 "rprivate",
@@ -312,6 +320,7 @@
         "Memory": {
           "description": "Memory limit in bytes.",
           "type": "integer",
+          "format": "int64",
           "default": 0
         },
         "CgroupParent": {
@@ -447,6 +456,11 @@
         "OomKillDisable": {
           "description": "Disable OOM Killer for the container.",
           "type": "boolean"
+        },
+        "Init": {
+          "description": "Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.",
+          "type": "boolean",
+          "x-nullable": true
         },
         "PidsLimit": {
           "description": "Tune a container's pids limit. Set -1 for unlimited.",
@@ -647,21 +661,7 @@
               "description": "Network mode to use for this container. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to."
             },
             "PortBindings": {
-              "type": "object",
-              "description": "A map of exposed container ports and the host port they should map to.",
-              "additionalProperties": {
-                "type": "object",
-                "properties": {
-                  "HostIp": {
-                    "type": "string",
-                    "description": "The host IP address"
-                  },
-                  "HostPort": {
-                    "type": "string",
-                    "description": "The host port number, as a string"
-                  }
-                }
-              }
+              "$ref": "#/definitions/PortMap"
             },
             "RestartPolicy": {
               "$ref": "#/definitions/RestartPolicy"
@@ -767,7 +767,7 @@
             },
             "PublishAllPorts": {
               "type": "boolean",
-              "description": "Allocates a random host port for all of a container's exposed ports."
+              "description": "Allocates an ephemeral host port for all of a container's\nexposed ports.\n\nPorts are de-allocated when the container stops and allocated when the container starts.\nThe allocated port might be changed when restarting the container.\n\nThe port is selected from the ephemeral port range that depends on the kernel.\nFor example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`.\n"
             },
             "ReadonlyRootfs": {
               "type": "boolean",
@@ -836,6 +836,20 @@
                 "process",
                 "hyperv"
               ]
+            },
+            "MaskedPaths": {
+              "type": "array",
+              "description": "The list of paths to be masked inside the container (this overrides the default set of paths)",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ReadonlyPaths": {
+              "type": "array",
+              "description": "The list of paths to be set as read-only inside the container (this overrides the default set of paths)",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }
@@ -873,16 +887,14 @@
           "default": true
         },
         "ExposedPorts": {
-          "description": "An object mapping ports to an empty object in the form:\n\n`{\"<port>/<tcp|udp>\": {}}`\n",
+          "description": "An object mapping ports to an empty object in the form:\n\n`{\"<port>/<tcp|udp|sctp>\": {}}`\n",
           "type": "object",
           "additionalProperties": {
             "type": "object",
             "enum": [
-              {
-              }
+              {}
             ],
-            "default": {
-            }
+            "default": {}
           }
         },
         "Tty": {
@@ -909,10 +921,7 @@
         },
         "Cmd": {
           "description": "Command to run specified as a string or an array of strings.",
-          "type": [
-            "array",
-            "string"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
@@ -931,16 +940,12 @@
         "Volumes": {
           "description": "An object mapping mount point paths inside the container to empty objects.",
           "type": "object",
-          "properties": {
-            "additionalProperties": {
-              "type": "object",
-              "enum": [
-                {
-                }
-              ],
-              "default": {
-              }
-            }
+          "additionalProperties": {
+            "type": "object",
+            "enum": [
+              {}
+            ],
+            "default": {}
           }
         },
         "WorkingDir": {
@@ -949,10 +954,7 @@
         },
         "Entrypoint": {
           "description": "The entry point for the container as a string or an array of strings.\n\nIf the array consists of exactly one empty string (`[\"\"]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`).\n",
-          "type": [
-            "array",
-            "string"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
@@ -1115,10 +1117,11 @@
       }
     },
     "PortMap": {
-      "description": "PortMap describes the mapping of container ports to host ports, using the\ncontainer's port-number and protocol as key in the format `<port>/<protocol>`,\nfor example, `80/udp`.\n\nIf a container's port is mapped for both `tcp` and `udp`, two separate\nentries are added to the mapping table.\n",
+      "description": "PortMap describes the mapping of container ports to host ports, using the\ncontainer's port-number and protocol as key in the format `<port>/<protocol>`,\nfor example, `80/udp`.\n\nIf a container's port is mapped for multiple protocols, separate entries\nare added to the mapping table.\n",
       "type": "object",
       "additionalProperties": {
         "type": "array",
+        "x-nullable": true,
         "items": {
           "$ref": "#/definitions/PortBinding"
         }
@@ -1158,7 +1161,6 @@
     "PortBinding": {
       "description": "PortBinding represents a binding between a host IP address and a host\nport.\n",
       "type": "object",
-      "x-nullable": true,
       "properties": {
         "HostIp": {
           "description": "Host IP address that the container's port is mapped to.",
@@ -1644,12 +1646,9 @@
         },
         "Options": {
           "description": "Driver-specific options, specified as a map.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       }
@@ -1697,12 +1696,66 @@
         },
         "progressDetail": {
           "$ref": "#/definitions/ProgressDetail"
+        },
+        "aux": {
+          "$ref": "#/definitions/ImageID"
         }
+      }
+    },
+    "BuildCache": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Parent": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "InUse": {
+          "type": "boolean"
+        },
+        "Shared": {
+          "type": "boolean"
+        },
+        "Size": {
+          "type": "integer"
+        },
+        "CreatedAt": {
+          "type": "integer"
+        },
+        "LastUsedAt": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UsageCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "ImageID": {
+      "type": "object",
+      "description": "Image ID or Digest",
+      "properties": {
+        "ID": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ID": "sha256:85f05633ddc1c50679be2b16a0479ab6f7637f8884e0cfe0f4d20e1ebb3d6e7c"
       }
     },
     "CreateImageInfo": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "error": {
           "type": "string"
         },
@@ -1748,10 +1801,10 @@
     "ProgressDetail": {
       "type": "object",
       "properties": {
-        "code": {
+        "current": {
           "type": "integer"
         },
-        "message": {
+        "total": {
           "type": "integer"
         }
       }
@@ -2165,6 +2218,15 @@
                   "type": "string",
                   "x-nullable": false,
                   "example": "plugins.sock"
+                },
+                "ProtocolScheme": {
+                  "type": "string",
+                  "example": "some.protocol/v1.0",
+                  "description": "Protocol to use for clients connecting to the plugin.",
+                  "enum": [
+                    "",
+                    "moby.plugins.http/v1"
+                  ]
                 }
               }
             },
@@ -2868,6 +2930,26 @@
           "description": "Whether there is currently a root CA rotation in progress for the swarm",
           "type": "boolean",
           "example": false
+        },
+        "DefaultAddrPool": {
+          "description": "Default Address Pool specifies default subnet pools for global scope networks.\n",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "CIDR",
+            "example": [
+              "10.10.0.0/16",
+              "20.20.0.0/16"
+            ]
+          }
+        },
+        "SubnetSize": {
+          "description": "SubnetSize specifies the subnet size of the networks created from the default subnet pool\n",
+          "type": "integer",
+          "format": "uint32",
+          "maximum": 29,
+          "default": 24,
+          "example": 24
         }
       }
     },
@@ -2909,7 +2991,7 @@
       "properties": {
         "PluginSpec": {
           "type": "object",
-          "description": "Invalid when specified with `ContainerSpec`. *(Experimental release only.)*",
+          "description": "Plugin spec for the service.  *(Experimental release only.)*\n\n<p><br /></p>\n\n> **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are\n> mutually exclusive. PluginSpec is only used when the Runtime field\n> is set to `plugin`. NetworkAttachmentSpec is used when the Runtime\n> field is set to `attachment`.\n",
           "properties": {
             "Name": {
               "description": "The name or 'alias' to use for the plugin.",
@@ -2948,7 +3030,7 @@
         },
         "ContainerSpec": {
           "type": "object",
-          "description": "Invalid when specified with `PluginSpec`.",
+          "description": "Container spec for the service.\n\n<p><br /></p>\n\n> **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are\n> mutually exclusive. PluginSpec is only used when the Runtime field\n> is set to `plugin`. NetworkAttachmentSpec is used when the Runtime\n> field is set to `attachment`.\n",
           "properties": {
             "Image": {
               "description": "The image name to use for the container",
@@ -3191,6 +3273,30 @@
                   }
                 }
               }
+            },
+            "Isolation": {
+              "type": "string",
+              "description": "Isolation technology of the containers running the service. (Windows only)",
+              "enum": [
+                "default",
+                "process",
+                "hyperv"
+              ]
+            },
+            "Init": {
+              "description": "Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used.",
+              "type": "boolean",
+              "x-nullable": true
+            }
+          }
+        },
+        "NetworkAttachmentSpec": {
+          "description": "Read-only spec type for non-swarm containers attached to swarm overlay\nnetworks.\n\n<p><br /></p>\n\n> **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are\n> mutually exclusive. PluginSpec is only used when the Runtime field\n> is set to `plugin`. NetworkAttachmentSpec is used when the Runtime\n> field is set to `attachment`.\n",
+          "type": "object",
+          "properties": {
+            "ContainerID": {
+              "description": "ID of the container represented by this task",
+              "type": "string"
             }
           }
         },
@@ -3351,7 +3457,9 @@
         "complete",
         "shutdown",
         "failed",
-        "rejected"
+        "rejected",
+        "remove",
+        "orphaned"
       ]
     },
     "Task": {
@@ -3448,17 +3556,14 @@
             "Image": "redis"
           },
           "Resources": {
-            "Limits": {
-            },
-            "Reservations": {
-            }
+            "Limits": {},
+            "Reservations": {}
           },
           "RestartPolicy": {
             "Condition": "any",
             "MaxAttempts": 0
           },
-          "Placement": {
-          }
+          "Placement": {}
         },
         "ServiceID": "9mnpnzenvg8p8tdbtq4wvbkcz",
         "Slot": 1,
@@ -3487,11 +3592,9 @@
                 "Labels": {
                   "com.docker.swarm.internal": "true"
                 },
-                "DriverConfiguration": {
-                },
+                "DriverConfiguration": {},
                 "IPAMOptions": {
-                  "Driver": {
-                  },
+                  "Driver": {},
                   "Configs": [
                     {
                       "Subnet": "10.255.0.0/16",
@@ -3698,7 +3801,8 @@
           "type": "string",
           "enum": [
             "tcp",
-            "udp"
+            "udp",
+            "sctp"
           ]
         },
         "TargetPort": {
@@ -3708,6 +3812,16 @@
         "PublishedPort": {
           "description": "The port on the swarm hosts.",
           "type": "integer"
+        },
+        "PublishMode": {
+          "description": "The mode in which port is published.\n\n<p><br /></p>\n\n- \"ingress\" makes the target port accessible on on every node,\n  regardless of whether there is a task for the service running on\n  that node or not.\n- \"host\" bypasses the routing mesh and publish the port directly on\n  the swarm node where that service is running.\n",
+          "type": "string",
+          "enum": [
+            "ingress",
+            "host"
+          ],
+          "default": "ingress",
+          "example": "ingress"
         }
       }
     },
@@ -3821,17 +3935,14 @@
               "Image": "redis"
             },
             "Resources": {
-              "Limits": {
-              },
-              "Reservations": {
-              }
+              "Limits": {},
+              "Reservations": {}
             },
             "RestartPolicy": {
               "Condition": "any",
               "MaxAttempts": 0
             },
-            "Placement": {
-            },
+            "Placement": {},
             "ForceUpdate": 0
           },
           "Mode": {
@@ -4071,6 +4182,10 @@
         "Driver": {
           "description": "Name of the secrets driver used to fetch the secret's value from an external secret store",
           "$ref": "#/definitions/Driver"
+        },
+        "Templating": {
+          "description": "Templating driver, if applicable\n\nTemplating controls whether and how to evaluate the config payload as\na template. If no driver is set, no templating is used.\n",
+          "$ref": "#/definitions/Driver"
         }
       }
     },
@@ -4116,6 +4231,10 @@
         "Data": {
           "description": "Base64-url-safe-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-3.2))\nconfig data.\n",
           "type": "string"
+        },
+        "Templating": {
+          "description": "Templating driver, if applicable\n\nTemplating controls whether and how to evaluate the config payload as\na template. If no driver is set, no templating is used.\n",
+          "$ref": "#/definitions/Driver"
         }
       }
     },
@@ -4452,14 +4571,14 @@
           "$ref": "#/definitions/GenericResources"
         },
         "HttpProxy": {
-          "description": "HTTP-proxy configured for the daemon. This value is obtained from the\n[`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.\n\nContainers do not automatically inherit this configuration.\n",
+          "description": "HTTP-proxy configured for the daemon. This value is obtained from the\n[`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.\nCredentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL\nare masked in the API response.\n\nContainers do not automatically inherit this configuration.\n",
           "type": "string",
-          "example": "http://user:pass@proxy.corp.example.com:8080"
+          "example": "http://xxxxx:xxxxx@proxy.corp.example.com:8080"
         },
         "HttpsProxy": {
-          "description": "HTTPS-proxy configured for the daemon. This value is obtained from the\n[`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.\n\nContainers do not automatically inherit this configuration.\n",
+          "description": "HTTPS-proxy configured for the daemon. This value is obtained from the\n[`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable.\nCredentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL\nare masked in the API response.\n\nContainers do not automatically inherit this configuration.\n",
           "type": "string",
-          "example": "https://user:pass@proxy.corp.example.com:4443"
+          "example": "https://xxxxx:xxxxx@proxy.corp.example.com:4443"
         },
         "NoProxy": {
           "description": "Comma-separated list of domain extensions for which no proxy should be\nused. This value is obtained from the [`NO_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html)\nenvironment variable.\n\nContainers do not automatically inherit this configuration.\n",
@@ -4510,12 +4629,12 @@
           },
           "default": {
             "runc": {
-              "path": "docker-runc"
+              "path": "runc"
             }
           },
           "example": {
             "runc": {
-              "path": "docker-runc"
+              "path": "runc"
             },
             "runc-master": {
               "path": "/go/bin/runc"
@@ -4555,7 +4674,7 @@
           ]
         },
         "InitBinary": {
-          "description": "Name and, optional, path of the the `docker-init` binary.\n\nIf the path is omitted, the daemon searches the host's `$PATH` for the\nbinary and uses the first result.\n",
+          "description": "Name and, optional, path of the `docker-init` binary.\n\nIf the path is omitted, the daemon searches the host's `$PATH` for the\nbinary and uses the first result.\n",
           "type": "string",
           "example": "docker-init"
         },
@@ -4579,6 +4698,23 @@
             "name=seccomp,profile=default",
             "name=selinux",
             "name=userns"
+          ]
+        },
+        "ProductLicense": {
+          "description": "Reports a summary of the product license on the daemon.\n\nIf a commercial license has been applied to the daemon, information\nsuch as number of nodes, and expiration are included.\n",
+          "type": "string",
+          "example": "Community Engine"
+        },
+        "Warnings": {
+          "description": "List of warnings / informational messages about missing features, or\nissues related to the daemon configuration.\n\nThese messages can be printed by the client as information to the user.\n",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "WARNING: No memory limit support",
+            "WARNING: bridge-nf-call-iptables is disabled",
+            "WARNING: bridge-nf-call-ip6tables is disabled"
           ]
         }
       }
@@ -4689,17 +4825,13 @@
           "example": {
             "127.0.0.1:5000": {
               "Name": "127.0.0.1:5000",
-              "Mirrors": [
-
-              ],
+              "Mirrors": [],
               "Secure": false,
               "Official": false
             },
             "[2001:db8:a0b:12f0::1]:80": {
               "Name": "[2001:db8:a0b:12f0::1]:80",
-              "Mirrors": [
-
-              ],
+              "Mirrors": [],
               "Secure": false,
               "Official": false
             },
@@ -4713,9 +4845,7 @@
             },
             "registry.internal.corp.example.com:3000": {
               "Name": "registry.internal.corp.example.com:3000",
-              "Mirrors": [
-
-              ],
+              "Mirrors": [],
               "Secure": false,
               "Official": false
             }
@@ -4757,7 +4887,7 @@
           ]
         },
         "Secure": {
-          "description": "Indicates if the the registry is part of the list of insecure\nregistries.\n\nIf `false`, the registry is insecure. Insecure registries accept\nun-encrypted (HTTP) and/or untrusted (HTTPS with certificates from\nunknown CAs) communication.\n\n> **Warning**: Insecure registries can be useful when running a local\n> registry. However, because its use creates security vulnerabilities\n> it should ONLY be enabled for testing purposes. For increased\n> security, users should add their CA to their system's list of\n> trusted CAs instead of enabling this option.\n",
+          "description": "Indicates if the registry is part of the list of insecure\nregistries.\n\nIf `false`, the registry is insecure. Insecure registries accept\nun-encrypted (HTTP) and/or untrusted (HTTPS with certificates from\nunknown CAs) communication.\n\n> **Warning**: Insecure registries can be useful when running a local\n> registry. However, because its use creates security vulnerabilities\n> it should ONLY be enabled for testing purposes. For increased\n> security, users should add their CA to their system's list of\n> trusted CAs instead of enabling this option.\n",
           "type": "boolean",
           "example": true
         },
@@ -5014,11 +5144,8 @@
                   "Created": 1367854155,
                   "State": "Exited",
                   "Status": "Exit 0",
-                  "Ports": [
-
-                  ],
-                  "Labels": {
-                  },
+                  "Ports": [],
+                  "Labels": {},
                   "SizeRw": 12288,
                   "SizeRootFs": 0,
                   "HostConfig": {
@@ -5039,9 +5166,7 @@
                       }
                     }
                   },
-                  "Mounts": [
-
-                  ]
+                  "Mounts": []
                 },
                 {
                   "Id": "3176a2479c92",
@@ -5054,11 +5179,8 @@
                   "Created": 1367854154,
                   "State": "Exited",
                   "Status": "Exit 0",
-                  "Ports": [
-
-                  ],
-                  "Labels": {
-                  },
+                  "Ports": [],
+                  "Labels": {},
                   "SizeRw": 12288,
                   "SizeRootFs": 0,
                   "HostConfig": {
@@ -5079,9 +5201,7 @@
                       }
                     }
                   },
-                  "Mounts": [
-
-                  ]
+                  "Mounts": []
                 },
                 {
                   "Id": "4cb07b47f9fb",
@@ -5094,11 +5214,8 @@
                   "Created": 1367854152,
                   "State": "Exited",
                   "Status": "Exit 0",
-                  "Ports": [
-
-                  ],
-                  "Labels": {
-                  },
+                  "Ports": [],
+                  "Labels": {},
                   "SizeRw": 12288,
                   "SizeRootFs": 0,
                   "HostConfig": {
@@ -5119,9 +5236,7 @@
                       }
                     }
                   },
-                  "Mounts": [
-
-                  ]
+                  "Mounts": []
                 }
               ]
             }
@@ -5219,15 +5334,13 @@
                   "com.example.version": "1.0"
                 },
                 "Volumes": {
-                  "/volumes/data": {
-                  }
+                  "/volumes/data": {}
                 },
                 "WorkingDir": "",
                 "NetworkDisabled": false,
                 "MacAddress": "12:34:56:78:9a:bc",
                 "ExposedPorts": {
-                  "22/tcp": {
-                  }
+                  "22/tcp": {}
                 },
                 "StopSignal": "SIGTERM",
                 "StopTimeout": 10,
@@ -5255,24 +5368,19 @@
                   "MaximumIOBps": 0,
                   "BlkioWeight": 300,
                   "BlkioWeightDevice": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceReadBps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceReadIOps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceWriteBps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceWriteIOps": [
-                    {
-                    }
+                    {}
                   ],
                   "MemorySwappiness": 60,
                   "OomKillDisable": false,
@@ -5317,23 +5425,16 @@
                   },
                   "AutoRemove": true,
                   "NetworkMode": "bridge",
-                  "Devices": [
-
-                  ],
+                  "Devices": [],
                   "Ulimits": [
-                    {
-                    }
+                    {}
                   ],
                   "LogConfig": {
                     "Type": "json-file",
-                    "Config": {
-                    }
+                    "Config": {}
                   },
-                  "SecurityOpt": [
-
-                  ],
-                  "StorageOpt": {
-                  },
+                  "SecurityOpt": [],
+                  "StorageOpt": {},
                   "CgroupParent": "",
                   "VolumeDriver": "",
                   "ShmSize": 67108864
@@ -5370,6 +5471,8 @@
             "description": "Container created successfully",
             "schema": {
               "type": "object",
+              "title": "ContainerCreateResponse",
+              "description": "OK response to ContainerCreate operation",
               "required": [
                 "Id",
                 "Warnings"
@@ -5393,9 +5496,7 @@
             "examples": {
               "application/json": {
                 "Id": "e90e34656806",
-                "Warnings": [
-
-                ]
+                "Warnings": []
               }
             }
           },
@@ -5447,6 +5548,7 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "ContainerInspectResponse",
               "properties": {
                 "Id": {
                   "description": "The ID of the container",
@@ -5563,7 +5665,12 @@
                   "type": "string"
                 },
                 "ExecIDs": {
-                  "type": "string"
+                  "description": "IDs of exec instances that are running in the container.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-nullable": true
                 },
                 "HostConfig": {
                   "$ref": "#/definitions/HostConfig"
@@ -5629,8 +5736,7 @@
                   "Tty": false,
                   "User": "",
                   "Volumes": {
-                    "/volumes/data": {
-                    }
+                    "/volumes/data": {}
                   },
                   "WorkingDir": "",
                   "StopSignal": "SIGTERM",
@@ -5638,29 +5744,28 @@
                 },
                 "Created": "2015-01-06T15:47:31.485331387Z",
                 "Driver": "devicemapper",
+                "ExecIDs": [
+                  "b35395de42bc8abd327f9dd65d913b9ba28c74d2f0734eeeae84fa1c616a0fca",
+                  "3fc1232e5cd20c8de182ed81178503dc6437f4e7ef12b52cc5e8de020652f1c4"
+                ],
                 "HostConfig": {
                   "MaximumIOps": 0,
                   "MaximumIOBps": 0,
                   "BlkioWeight": 0,
                   "BlkioWeightDevice": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceReadBps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceWriteBps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceReadIOps": [
-                    {
-                    }
+                    {}
                   ],
                   "BlkioDeviceWriteIOps": [
-                    {
-                    }
+                    {}
                   ],
                   "ContainerIDFile": "",
                   "CpusetCpus": "",
@@ -5670,13 +5775,9 @@
                   "CpuPeriod": 100000,
                   "CpuRealtimePeriod": 1000000,
                   "CpuRealtimeRuntime": 10000,
-                  "Devices": [
-
-                  ],
+                  "Devices": [],
                   "IpcMode": "",
-                  "LxcConf": [
-
-                  ],
+                  "LxcConf": [],
                   "Memory": 0,
                   "MemorySwap": 0,
                   "MemoryReservation": 0,
@@ -5685,8 +5786,7 @@
                   "OomScoreAdj": 500,
                   "NetworkMode": "bridge",
                   "PidMode": "",
-                  "PortBindings": {
-                  },
+                  "PortBindings": {},
                   "Privileged": false,
                   "ReadonlyRootfs": false,
                   "PublishAllPorts": false,
@@ -5701,8 +5801,7 @@
                     "net.ipv4.ip_forward": "1"
                   },
                   "Ulimits": [
-                    {
-                    }
+                    {}
                   ],
                   "VolumeDriver": "",
                   "ShmSize": 67108864
@@ -5823,6 +5922,8 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "ContainerTopResponse",
+              "description": "OK response to ContainerTop operation",
               "properties": {
                 "Titles": {
                   "description": "The ps column titles",
@@ -5993,6 +6094,13 @@
             "default": 0
           },
           {
+            "name": "until",
+            "in": "query",
+            "description": "Only return logs before this time, as a UNIX timestamp",
+            "type": "integer",
+            "default": 0
+          },
+          {
             "name": "timestamps",
             "in": "query",
             "description": "Add timestamps to every log line",
@@ -6028,6 +6136,8 @@
               "items": {
                 "type": "object",
                 "x-go-name": "ContainerChangeResponseItem",
+                "title": "ContainerChangeResponseItem",
+                "description": "change item in response to ContainerChanges operation",
                 "required": [
                   "Path",
                   "Kind"
@@ -6148,7 +6258,7 @@
     "/containers/{id}/stats": {
       "get": {
         "summary": "Get container stats based on resource usage",
-        "description": "This endpoint returns a live stream of a container’s resource usage\nstatistics.\n\nThe `precpu_stats` is the CPU statistic of last read, which is used\nfor calculating the CPU usage percentage. It is not the same as the\n`cpu_stats` field.\n\nIf either `precpu_stats.online_cpus` or `cpu_stats.online_cpus` is\nnil then for compatibility with older daemons the length of the\ncorresponding `cpu_usage.percpu_usage` array should be used.\n",
+        "description": "This endpoint returns a live stream of a container’s resource usage\nstatistics.\n\nThe `precpu_stats` is the CPU statistic of the *previous* read, and is\nused to calculate the CPU usage percentage. It is not an exact copy\nof the `cpu_stats` field.\n\nIf either `precpu_stats.online_cpus` or `cpu_stats.online_cpus` is\nnil then for compatibility with older daemons the length of the\ncorresponding `cpu_usage.percpu_usage` array should be used.\n",
         "operationId": "ContainerStats",
         "produces": [
           "application/json"
@@ -6224,8 +6334,7 @@
                   "failcnt": 0,
                   "limit": 67108864
                 },
-                "blkio_stats": {
-                },
+                "blkio_stats": {},
                 "cpu_stats": {
                   "cpu_usage": {
                     "percpu_usage": [
@@ -6311,7 +6420,7 @@
     "/containers/{id}/resize": {
       "post": {
         "summary": "Resize a container TTY",
-        "description": "Resize the TTY for a container. You must restart the container for the resize to take effect.",
+        "description": "Resize the TTY for a container.",
         "operationId": "ContainerResize",
         "consumes": [
           "application/octet-stream"
@@ -6537,6 +6646,17 @@
               }
             }
           },
+          "409": {
+            "description": "container is not running",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "examples": {
+              "application/json": {
+                "message": "Container d37cde0fe4ad63c3a7252023b2f9800282894247d145cb5933ddf6e52cc03a28 is not running"
+              }
+            }
+          },
           "500": {
             "description": "server error",
             "schema": {
@@ -6581,6 +6701,8 @@
             "description": "The container has been updated.",
             "schema": {
               "type": "object",
+              "title": "ContainerUpdateResponse",
+              "description": "OK response to ContainerUpdate operation",
               "properties": {
                 "Warnings": {
                   "type": "array",
@@ -6993,6 +7115,8 @@
             "description": "The container has exit.",
             "schema": {
               "type": "object",
+              "title": "ContainerWaitResponse",
+              "description": "OK response to ContainerWait operation",
               "required": [
                 "StatusCode"
               ],
@@ -7001,6 +7125,16 @@
                   "description": "Exit code of the container",
                   "type": "integer",
                   "x-nullable": false
+                },
+                "Error": {
+                  "description": "container waiting error, if any",
+                  "type": "object",
+                  "properties": {
+                    "Message": {
+                      "description": "Details of an error",
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -7133,7 +7267,7 @@
             "headers": {
               "X-Docker-Container-Path-Stat": {
                 "type": "string",
-                "description": "TODO"
+                "description": "A base64 - encoded JSON object with some filesystem header information about the path"
               }
             }
           },
@@ -7328,12 +7462,19 @@
             "type": "string"
           },
           {
+            "name": "copyUIDGID",
+            "in": "query",
+            "description": "If “1”, “true”, then it will copy UID/GID maps to the dest file or dir",
+            "type": "string"
+          },
+          {
             "name": "inputStream",
             "in": "body",
             "required": true,
             "description": "The input stream must be a tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "binary"
             }
           }
         ],
@@ -7362,6 +7503,7 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "ContainerPruneResponse",
               "properties": {
                 "ContainersDeleted": {
                   "description": "Container IDs that were deleted",
@@ -7423,8 +7565,7 @@
                   "Size": 103579269,
                   "VirtualSize": 103579269,
                   "SharedSize": 0,
-                  "Labels": {
-                  },
+                  "Labels": {},
                   "Containers": 2
                 },
                 {
@@ -7442,8 +7583,7 @@
                   "Size": 172064416,
                   "VirtualSize": 172064416,
                   "SharedSize": 0,
-                  "Labels": {
-                  },
+                  "Labels": {},
                   "Containers": 5
                 }
               ]
@@ -7608,8 +7748,8 @@
           {
             "name": "buildargs",
             "in": "query",
-            "description": "JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)",
-            "type": "integer"
+            "description": "JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values.\n\nFor example, the build arg `FOO=bar` would become `{\"FOO\":\"bar\"}` in JSON. This would result in the the query parameter `buildargs={\"FOO\":\"bar\"}`. Note that `{\"FOO\":\"bar\"}` should be URI component encoded.\n\n[Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)\n",
+            "type": "string"
           },
           {
             "name": "shmsize",
@@ -7649,6 +7789,20 @@
             "in": "header",
             "description": "This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.\n\nThe key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:\n\n```\n{\n  \"docker.example.com\": {\n    \"username\": \"janedoe\",\n    \"password\": \"hunter2\"\n  },\n  \"https://index.docker.io/v1/\": {\n    \"username\": \"mobydock\",\n    \"password\": \"conta1n3rize14\"\n  }\n}\n```\n\nOnly the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API.\n",
             "type": "string"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "description": "Platform in the format os[/arch[/variant]]",
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "description": "Target build stage",
+            "type": "string",
+            "default": ""
           }
         ],
         "responses": {
@@ -7680,12 +7834,41 @@
           "application/json"
         ],
         "operationId": "BuildPrune",
+        "parameters": [
+          {
+            "name": "keep-storage",
+            "in": "query",
+            "description": "Amount of disk space in bytes to keep for cache",
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "all",
+            "in": "query",
+            "type": "boolean",
+            "description": "Remove all types of build cache"
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "type": "string",
+            "description": "A JSON encoded value of the filters (a `map[string][]string`) to process on the list of build cache objects. Available filters:\n- `until=<duration>`: duration relative to daemon's time, during which build cache was not used, in Go's duration format (e.g., '24h')\n- `id=<id>`\n- `parent=<id>`\n- `type=<string>`\n- `description=<string>`\n- `inuse`\n- `shared`\n- `private`\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "BuildPruneResponse",
               "properties": {
+                "CachesDeleted": {
+                  "type": "array",
+                  "items": {
+                    "description": "ID of build cache object",
+                    "type": "string"
+                  }
+                },
                 "SpaceReclaimed": {
                   "description": "Disk space reclaimed in bytes",
                   "type": "integer",
@@ -7774,6 +7957,13 @@
             "in": "header",
             "description": "A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)",
             "type": "string"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "description": "Platform in the format os[/arch[/variant]]",
+            "type": "string",
+            "default": ""
           }
         ],
         "tags": [
@@ -7813,9 +8003,7 @@
                   "OpenStdin": false,
                   "StdinOnce": false,
                   "NetworkDisabled": false,
-                  "OnBuild": [
-
-                  ],
+                  "OnBuild": [],
                   "Image": "91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c",
                   "User": "",
                   "WorkingDir": "",
@@ -7842,8 +8030,7 @@
                 "Created": "2015-09-10T08:30:53.26995814Z",
                 "GraphDriver": {
                   "Name": "aufs",
-                  "Data": {
-                  }
+                  "Data": {}
                 },
                 "RepoDigests": [
                   "localhost:5000/test/busybox/example@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf"
@@ -7856,9 +8043,7 @@
                 "Config": {
                   "Image": "91e54dfb11794fad694460162bf0cb0a4fa710cfa3f60979c177d920813e267c",
                   "NetworkDisabled": false,
-                  "OnBuild": [
-
-                  ],
+                  "OnBuild": [],
                   "StdinOnce": false,
                   "PublishService": "",
                   "AttachStdin": false,
@@ -7941,6 +8126,8 @@
               "items": {
                 "type": "object",
                 "x-go-name": "HistoryResponseItem",
+                "title": "HistoryResponseItem",
+                "description": "individual image layer information in response to ImageHistory operation",
                 "required": [
                   "Id",
                   "Created",
@@ -7998,9 +8185,7 @@
                   "Id": "6cfa4d1f33fb861d4d114f43b25abd0ac737509268065cdfd69d544a59c85ab8",
                   "Created": 1398108222,
                   "CreatedBy": "/bin/sh -c #(nop) MAINTAINER Tianon Gravi <admwiggin@gmail.com> - mkimage-debootstrap.sh -i iproute,iputils-ping,ubuntu-minimal -t lucid.tar.xz lucid http://archive.ubuntu.com/ubuntu/",
-                  "Tags": [
-
-                  ],
+                  "Tags": [],
                   "Size": 0,
                   "Comment": ""
                 },
@@ -8250,6 +8435,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "title": "ImageSearchResponseItem",
                 "properties": {
                   "description": {
                     "type": "string"
@@ -8348,6 +8534,7 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "ImagePruneResponse",
               "properties": {
                 "ImagesDeleted": {
                   "description": "Images that were deleted",
@@ -8392,6 +8579,7 @@
             "description": "An identity token was generated successfully.",
             "schema": {
               "type": "object",
+              "title": "SystemAuthResponse",
               "required": [
                 "Status"
               ],
@@ -8479,7 +8667,43 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "SystemVersionResponse",
               "properties": {
+                "Platform": {
+                  "type": "object",
+                  "required": [
+                    "Name"
+                  ],
+                  "properties": {
+                    "Name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Components": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-go-name": "ComponentVersion",
+                    "required": [
+                      "Name",
+                      "Version"
+                    ],
+                    "properties": {
+                      "Name": {
+                        "type": "string"
+                      },
+                      "Version": {
+                        "type": "string",
+                        "x-nullable": false
+                      },
+                      "Details": {
+                        "type": "object",
+                        "x-nullable": true
+                      }
+                    }
+                  }
+                },
                 "Version": {
                   "type": "string"
                 },
@@ -8558,6 +8782,10 @@
               "API-Version": {
                 "type": "string",
                 "description": "Max API Version the server supports"
+              },
+              "BuildKit-Version": {
+                "type": "string",
+                "description": "Default version of docker image builder"
               },
               "Docker-Experimental": {
                 "type": "boolean",
@@ -8673,7 +8901,7 @@
     "/events": {
       "get": {
         "summary": "Monitor events",
-        "description": "Stream real-time events from the server.\n\nVarious objects within Docker report events when something happens to them.\n\nContainers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`\n\nImages report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`\n\nVolumes report these events: `create`, `mount`, `unmount`, and `destroy`\n\nNetworks report these events: `create`, `connect`, `disconnect`, `destroy`, `update`, and `remove`\n\nThe Docker daemon reports these events: `reload`\n\nServices report these events: `create`, `update`, and `remove`\n\nNodes report these events: `create`, `update`, and `remove`\n\nSecrets report these events: `create`, `update`, and `remove`\n\nConfigs report these events: `create`, `update`, and `remove`\n",
+        "description": "Stream real-time events from the server.\n\nVarious objects within Docker report events when something happens to them.\n\nContainers report these events: `attach`, `commit`, `copy`, `create`, `destroy`, `detach`, `die`, `exec_create`, `exec_detach`, `exec_start`, `exec_die`, `export`, `health_status`, `kill`, `oom`, `pause`, `rename`, `resize`, `restart`, `start`, `stop`, `top`, `unpause`, and `update`\n\nImages report these events: `delete`, `import`, `load`, `pull`, `push`, `save`, `tag`, and `untag`\n\nVolumes report these events: `create`, `mount`, `unmount`, and `destroy`\n\nNetworks report these events: `create`, `connect`, `disconnect`, `destroy`, `update`, and `remove`\n\nThe Docker daemon reports these events: `reload`\n\nServices report these events: `create`, `update`, and `remove`\n\nNodes report these events: `create`, `update`, and `remove`\n\nSecrets report these events: `create`, `update`, and `remove`\n\nConfigs report these events: `create`, `update`, and `remove`\n",
         "operationId": "SystemEvents",
         "produces": [
           "application/json"
@@ -8683,6 +8911,7 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "SystemEventsResponse",
               "properties": {
                 "Type": {
                   "description": "The type of object emitting the event",
@@ -8764,7 +8993,7 @@
           {
             "name": "filters",
             "in": "query",
-            "description": "A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters:\n\n- `container=<string>` container name or ID\n- `daemon=<string>` daemon name or ID\n- `event=<string>` event type\n- `image=<string>` image name or ID\n- `label=<string>` image or container label\n- `network=<string>` network name or ID\n- `plugin`=<string> plugin name or ID\n- `scope`＝<string> local or swarm\n- `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service` or `secret`\n- `volume=<string>` volume name or ID\n",
+            "description": "A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters:\n\n- `config=<string>` config name or ID\n- `container=<string>` container name or ID\n- `daemon=<string>` daemon name or ID\n- `event=<string>` event type\n- `image=<string>` image name or ID\n- `label=<string>` image or container label\n- `network=<string>` network name or ID\n- `node=<string>` node ID\n- `plugin`=<string> plugin name or ID\n- `scope`=<string> local or swarm\n- `secret=<string>` secret name or ID\n- `service=<string>` service name or ID\n- `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config`\n- `volume=<string>` volume name\n",
             "type": "string"
           }
         ],
@@ -8782,6 +9011,7 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "SystemDataUsageResponse",
               "properties": {
                 "LayersSize": {
                   "type": "integer",
@@ -8804,6 +9034,12 @@
                   "items": {
                     "$ref": "#/definitions/Volume"
                   }
+                },
+                "BuildCache": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/BuildCache"
+                  }
                 }
               },
               "example": {
@@ -8822,8 +9058,7 @@
                     "Size": 1092588,
                     "SharedSize": 0,
                     "VirtualSize": 1092588,
-                    "Labels": {
-                    },
+                    "Labels": {},
                     "Containers": 1
                   }
                 ],
@@ -8837,12 +9072,9 @@
                     "ImageID": "sha256:2b8fd9751c4c0f5dd266fcae00707e67a2545ef34f9a29354585f93dac906749",
                     "Command": "top",
                     "Created": 1472592424,
-                    "Ports": [
-
-                    ],
+                    "Ports": [],
                     "SizeRootFs": 1092588,
-                    "Labels": {
-                    },
+                    "Labels": {},
                     "State": "exited",
                     "Status": "Exited (0) 56 minutes ago",
                     "HostConfig": {
@@ -8866,9 +9098,7 @@
                         }
                       }
                     },
-                    "Mounts": [
-
-                    ]
+                    "Mounts": []
                   }
                 ],
                 "Volumes": [
@@ -9113,6 +9343,10 @@
                 "User": {
                   "type": "string",
                   "description": "The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`."
+                },
+                "WorkingDir": {
+                  "type": "string",
+                  "description": "The working directory for the exec process inside the container."
                 }
               },
               "example": {
@@ -9263,7 +9497,14 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "ExecInspectResponse",
               "properties": {
+                "CanRemove": {
+                  "type": "boolean"
+                },
+                "DetachKeys": {
+                  "type": "string"
+                },
                 "ID": {
                   "type": "string"
                 },
@@ -9358,6 +9599,8 @@
             "description": "Summary volume data that matches the query",
             "schema": {
               "type": "object",
+              "title": "VolumeListResponse",
+              "description": "Volume list response",
               "required": [
                 "Volumes",
                 "Warnings"
@@ -9401,9 +9644,7 @@
                     }
                   }
                 ],
-                "Warnings": [
-
-                ]
+                "Warnings": []
               }
             }
           },
@@ -9460,6 +9701,8 @@
             "description": "Volume configuration",
             "schema": {
               "type": "object",
+              "description": "Volume configuration",
+              "title": "VolumeConfig",
               "properties": {
                 "Name": {
                   "description": "The new volume's name. If not specified, Docker generates a name.",
@@ -9611,6 +9854,7 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "VolumePruneResponse",
               "properties": {
                 "VolumesDeleted": {
                   "description": "Volumes that were deleted",
@@ -9697,14 +9941,10 @@
                   "Ingress": false,
                   "IPAM": {
                     "Driver": "default",
-                    "Config": [
-
-                    ]
+                    "Config": []
                   },
-                  "Containers": {
-                  },
-                  "Options": {
-                  }
+                  "Containers": {},
+                  "Options": {}
                 },
                 {
                   "Name": "host",
@@ -9718,14 +9958,10 @@
                   "Ingress": false,
                   "IPAM": {
                     "Driver": "default",
-                    "Config": [
-
-                    ]
+                    "Config": []
                   },
-                  "Containers": {
-                  },
-                  "Options": {
-                  }
+                  "Containers": {},
+                  "Options": {}
                 }
               ]
             }
@@ -9858,6 +10094,7 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "NetworkCreateResponse",
               "properties": {
                 "Id": {
                   "description": "The ID of the created network.",
@@ -10003,7 +10240,7 @@
         "summary": "Connect a container to a network",
         "operationId": "NetworkConnect",
         "consumes": [
-          "application/octet-stream"
+          "application/json"
         ],
         "responses": {
           "200": {
@@ -10150,6 +10387,7 @@
             "description": "No error",
             "schema": {
               "type": "object",
+              "title": "NetworkPruneResponse",
               "properties": {
                 "NetworksDeleted": {
                   "description": "Networks that were deleted",
@@ -10223,6 +10461,7 @@
               "items": {
                 "description": "Describes a permission the user has to accept upon installing the plugin.",
                 "type": "object",
+                "title": "PluginPrivilegeItem",
                 "properties": {
                   "Name": {
                     "type": "string"
@@ -11045,9 +11284,25 @@
                   "description": "Address or interface to use for data path traffic (format: `<ip|interface>`), for example,  `192.168.1.1`,\nor an interface, like `eth0`. If `DataPathAddr` is unspecified, the same address as `AdvertiseAddr`\nis used.\n\nThe `DataPathAddr` specifies the address that global scope network drivers will publish towards other\nnodes in order to reach the containers running on this node. Using this parameter it is possible to\nseparate the container data traffic from the management traffic of the cluster.\n",
                   "type": "string"
                 },
+                "DefaultAddrPool": {
+                  "description": "Default Address Pool specifies default subnet pools for global scope networks.\n",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": [
+                      "10.10.0.0/16",
+                      "20.20.0.0/16"
+                    ]
+                  }
+                },
                 "ForceNewCluster": {
                   "description": "Force creation of a new swarm.",
                   "type": "boolean"
+                },
+                "SubnetSize": {
+                  "description": "SubnetSize specifies the subnet size of the networks created from the default subnet pool\n",
+                  "type": "integer",
+                  "format": "uint32"
                 },
                 "Spec": {
                   "$ref": "#/definitions/SwarmSpec"
@@ -11056,16 +11311,17 @@
               "example": {
                 "ListenAddr": "0.0.0.0:2377",
                 "AdvertiseAddr": "192.168.1.1:2377",
+                "DefaultAddrPool": [
+                  "10.10.0.0/8",
+                  "20.20.0.0/8"
+                ],
+                "SubnetSize": 24,
                 "ForceNewCluster": false,
                 "Spec": {
-                  "Orchestration": {
-                  },
-                  "Raft": {
-                  },
-                  "Dispatcher": {
-                  },
-                  "CAConfig": {
-                  },
+                  "Orchestration": {},
+                  "Raft": {},
+                  "Dispatcher": {},
+                  "CAConfig": {},
                   "EncryptionConfig": {
                     "AutoLockManagers": false
                   }
@@ -11128,7 +11384,10 @@
                 },
                 "RemoteAddrs": {
                   "description": "Addresses of manager nodes already participating in the swarm.",
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "JoinToken": {
                   "description": "Secret token for joining this swarm.",
@@ -11269,6 +11528,7 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "UnlockKeyResponse",
               "properties": {
                 "UnlockKey": {
                   "description": "The swarm's unlock key.",
@@ -11404,6 +11664,7 @@
             "description": "no error",
             "schema": {
               "type": "object",
+              "title": "ServiceCreateResponse",
               "properties": {
                 "ID": {
                   "description": "The ID of the created service.",
@@ -11475,8 +11736,7 @@
                             "Target": "/usr/share/nginx/html",
                             "Type": "volume",
                             "VolumeOptions": {
-                              "DriverConfig": {
-                              },
+                              "DriverConfig": {},
                               "Labels": {
                                 "com.example.something": "something-value"
                               }
@@ -11519,14 +11779,12 @@
                           "max-size": "10M"
                         }
                       },
-                      "Placement": {
-                      },
+                      "Placement": {},
                       "Resources": {
                         "Limits": {
                           "MemoryBytes": 104857600
                         },
-                        "Reservations": {
-                        }
+                        "Reservations": {}
                       },
                       "RestartPolicy": {
                         "Condition": "on-failure",
@@ -11743,17 +12001,14 @@
                         ]
                       },
                       "Resources": {
-                        "Limits": {
-                        },
-                        "Reservations": {
-                        }
+                        "Limits": {},
+                        "Reservations": {}
                       },
                       "RestartPolicy": {
                         "Condition": "any",
                         "MaxAttempts": 0
                       },
-                      "Placement": {
-                      },
+                      "Placement": {},
                       "ForceUpdate": 0
                     },
                     "Mode": {
@@ -11786,7 +12041,7 @@
           {
             "name": "version",
             "in": "query",
-            "description": "The version number of the service object being updated. This is required to avoid conflicting writes.",
+            "description": "The version number of the service object being updated. This is required to avoid conflicting writes. This version number should be the value as currently set on the service *before* the update. You can find the current version by calling `GET /services/{id}`",
             "required": true,
             "type": "integer"
           },
@@ -11953,17 +12208,14 @@
                       "Image": "redis"
                     },
                     "Resources": {
-                      "Limits": {
-                      },
-                      "Reservations": {
-                      }
+                      "Limits": {},
+                      "Reservations": {}
                     },
                     "RestartPolicy": {
                       "Condition": "any",
                       "MaxAttempts": 0
                     },
-                    "Placement": {
-                    }
+                    "Placement": {}
                   },
                   "ServiceID": "9mnpnzenvg8p8tdbtq4wvbkcz",
                   "Slot": 1,
@@ -11992,11 +12244,9 @@
                           "Labels": {
                             "com.docker.swarm.internal": "true"
                           },
-                          "DriverConfiguration": {
-                          },
+                          "DriverConfiguration": {},
                           "IPAMOptions": {
-                            "Driver": {
-                            },
+                            "Driver": {},
                             "Configs": [
                               {
                                 "Subnet": "10.255.0.0/16",
@@ -12042,17 +12292,14 @@
                       "Image": "redis"
                     },
                     "Resources": {
-                      "Limits": {
-                      },
-                      "Reservations": {
-                      }
+                      "Limits": {},
+                      "Reservations": {}
                     },
                     "RestartPolicy": {
                       "Condition": "any",
                       "MaxAttempts": 0
                     },
-                    "Placement": {
-                    }
+                    "Placement": {}
                   },
                   "ServiceID": "9mnpnzenvg8p8tdbtq4wvbkcz",
                   "Slot": 1,
@@ -12080,11 +12327,9 @@
                           "Labels": {
                             "com.docker.swarm.internal": "true"
                           },
-                          "DriverConfiguration": {
-                          },
+                          "DriverConfiguration": {},
                           "IPAMOptions": {
-                            "Driver": {
-                            },
+                            "Driver": {},
                             "Configs": [
                               {
                                 "Subnet": "10.255.0.0/16",
@@ -12394,16 +12639,7 @@
           "201": {
             "description": "no error",
             "schema": {
-              "type": "object",
-              "properties": {
-                "ID": {
-                  "description": "The ID of the created secret.",
-                  "type": "string"
-                }
-              },
-              "example": {
-                "ID": "ktnbjxoalbkvbvedmg1urrz8h"
-              }
+              "$ref": "#/definitions/IdResponse"
             }
           },
           "409": {
@@ -12705,16 +12941,7 @@
           "201": {
             "description": "no error",
             "schema": {
-              "type": "object",
-              "properties": {
-                "ID": {
-                  "description": "The ID of the created config.",
-                  "type": "string"
-                }
-              },
-              "example": {
-                "ID": "ktnbjxoalbkvbvedmg1urrz8h"
-              }
+              "$ref": "#/definitions/IdResponse"
             }
           },
           "409": {
@@ -12943,6 +13170,7 @@
             "schema": {
               "type": "object",
               "x-go-name": "DistributionInspect",
+              "title": "DistributionInspectResponse",
               "required": [
                 "Descriptor",
                 "Platforms"

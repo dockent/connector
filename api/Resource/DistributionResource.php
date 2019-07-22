@@ -18,7 +18,7 @@ class DistributionResource extends Resource
     public function distributionInspect($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/distribution/{name}/json';
+        $url = '/v1.39/distribution/{name}/json';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 09.11.17
- * Time: 18:22
- */
 
 namespace Dockent\Connector;
 
@@ -24,6 +18,7 @@ use Dockent\OpenAPI\Resource\SwarmResource;
 use Dockent\OpenAPI\Resource\SystemResource;
 use Dockent\OpenAPI\Resource\TaskResource;
 use Dockent\OpenAPI\Resource\VolumeResource;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
@@ -102,7 +97,7 @@ class Connector
      * @param string $name
      * @param array $arguments
      * @return Resource
-     * @throws \Exception
+     * @throws Exception
      */
     public function __call(string $name, array $arguments): Resource
     {
@@ -113,7 +108,7 @@ class Connector
                 $className = "Dockent\\OpenAPI\\Resource\\$name";
             }
             if (!class_exists($className)) {
-                throw new \Exception("Class '$className' is not exist");
+                throw new Exception("Class '$className' is not exist");
             }
             $resource = new $className($this->httpClient, $this->requestFactory, $this->serializer);
             $this->storage[$name] = $resource;

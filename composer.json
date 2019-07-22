@@ -13,7 +13,7 @@
         "php-http/guzzle6-adapter": "^1.1",
         "guzzlehttp/psr7": "^1.4",
         "php-http/message": "^1.6",
-        "jane/openapi-runtime": "^2.0"
+        "jane-php/open-api-runtime": "^5.0@dev"
     },
     "require-dev": {
         "jane/open-api": "master",

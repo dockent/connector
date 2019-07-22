@@ -32,7 +32,7 @@ class NetworkResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/networks';
+        $url = '/v1.39/networks';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -64,7 +64,7 @@ class NetworkResource extends Resource
     public function networkDelete($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/networks/{id}';
+        $url = '/v1.39/networks/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -108,7 +108,7 @@ class NetworkResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('verbose', false);
         $queryParam->setDefault('scope', NULL);
-        $url = '/v1.32/networks/{id}';
+        $url = '/v1.39/networks/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -144,7 +144,7 @@ class NetworkResource extends Resource
     public function networkCreate($networkConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/networks/create';
+        $url = '/v1.39/networks/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($networkConfig, 'json');
@@ -183,7 +183,7 @@ class NetworkResource extends Resource
     public function networkConnect($id, $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/networks/{id}/connect';
+        $url = '/v1.39/networks/{id}/connect';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -223,7 +223,7 @@ class NetworkResource extends Resource
     public function networkDisconnect($id, $container, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/networks/{id}/disconnect';
+        $url = '/v1.39/networks/{id}/disconnect';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -269,7 +269,7 @@ class NetworkResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/networks/prune';
+        $url = '/v1.39/networks/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);

@@ -47,7 +47,7 @@ class ContainerResource extends Resource
         $queryParam->setDefault('limit', NULL);
         $queryParam->setDefault('size', false);
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/containers/json';
+        $url = '/v1.39/containers/json';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -85,7 +85,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('name', NULL);
-        $url = '/v1.32/containers/create';
+        $url = '/v1.39/containers/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
@@ -129,7 +129,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('size', false);
-        $url = '/v1.32/containers/{id}/json';
+        $url = '/v1.39/containers/{id}/json';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -168,7 +168,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('ps_args', '-ef');
-        $url = '/v1.32/containers/{id}/top';
+        $url = '/v1.39/containers/{id}/top';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -207,6 +207,7 @@ class ContainerResource extends Resource
     *     @var bool $stdout Return logs from `stdout`
     *     @var bool $stderr Return logs from `stderr`
     *     @var int $since Only return logs since this time, as a UNIX timestamp
+    *     @var int $until Only return logs before this time, as a UNIX timestamp
     *     @var bool $timestamps Add timestamps to every log line
     *     @var string $tail Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines.
     * }
@@ -221,9 +222,10 @@ class ContainerResource extends Resource
         $queryParam->setDefault('stdout', false);
         $queryParam->setDefault('stderr', false);
         $queryParam->setDefault('since', 0);
+        $queryParam->setDefault('until', 0);
         $queryParam->setDefault('timestamps', false);
         $queryParam->setDefault('tail', 'all');
-        $url = '/v1.32/containers/{id}/logs';
+        $url = '/v1.39/containers/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -268,7 +270,7 @@ class ContainerResource extends Resource
     public function containerChanges($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/changes';
+        $url = '/v1.39/containers/{id}/changes';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -304,7 +306,7 @@ class ContainerResource extends Resource
     public function containerExport($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/export';
+        $url = '/v1.39/containers/{id}/export';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -328,35 +330,32 @@ class ContainerResource extends Resource
         }
         return $response;
     }
-
     /**
-     * This endpoint returns a live stream of a container’s resource usage
-     * statistics.
-     *
-     * The `precpu_stats` is the CPU statistic of last read, which is used
-     * for calculating the CPU usage percentage. It is not the same as the
-     * `cpu_stats` field.
-     *
-     * If either `precpu_stats.online_cpus` or `cpu_stats.online_cpus` is
-     * nil then for compatibility with older daemons the length of the
-     * corresponding `cpu_usage.percpu_usage` array should be used.
-     *
-     * @param string $id ID or name of the container
-     * @param array $parameters {
-     * @var bool $stream Stream the output. If false, the stats will be output once and then it will disconnect.
-     * }
-     * @param string $fetch Fetch mode (object or response)
-     *
-     * @return \Psr\Http\Message\ResponseInterface|string
-     * @throws \Exception
-     *
-     * @edited
-     */
+    * This endpoint returns a live stream of a container’s resource usage
+    statistics.
+    
+    The `precpu_stats` is the CPU statistic of the *previous* read, and is
+    used to calculate the CPU usage percentage. It is not an exact copy
+    of the `cpu_stats` field.
+    
+    If either `precpu_stats.online_cpus` or `cpu_stats.online_cpus` is
+    nil then for compatibility with older daemons the length of the
+    corresponding `cpu_usage.percpu_usage` array should be used.
+    
+    *
+    * @param string $id ID or name of the container
+    * @param array  $parameters {
+    *     @var bool $stream Stream the output. If false, the stats will be output once and then it will disconnect.
+    * }
+    * @param string $fetch      Fetch mode (object or response)
+    *
+    * @return \Psr\Http\Message\ResponseInterface|string
+    */
     public function containerStats($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('stream', true);
-        $url = '/v1.32/containers/{id}/stats';
+        $url = '/v1.39/containers/{id}/stats';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -369,7 +368,7 @@ class ContainerResource extends Resource
         $response = $promise->wait();
         if (self::FETCH_OBJECT == $fetch) {
             if ('200' == $response->getStatusCode()) {
-                return (string) $response->getBody();
+                return null;
             }
             if ('404' == $response->getStatusCode()) {
                 return (string) $response->getBody();
@@ -381,7 +380,7 @@ class ContainerResource extends Resource
         return $response;
     }
     /**
-     * Resize the TTY for a container. You must restart the container for the resize to take effect.
+     * Resize the TTY for a container.
      *
      * @param string $id ID or name of the container
      * @param array  $parameters {
@@ -397,7 +396,7 @@ class ContainerResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('h', NULL);
         $queryParam->setDefault('w', NULL);
-        $url = '/v1.32/containers/{id}/resize';
+        $url = '/v1.39/containers/{id}/resize';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -436,7 +435,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('detachKeys', NULL);
-        $url = '/v1.32/containers/{id}/start';
+        $url = '/v1.39/containers/{id}/start';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -478,7 +477,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('t', NULL);
-        $url = '/v1.32/containers/{id}/stop';
+        $url = '/v1.39/containers/{id}/stop';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -520,7 +519,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('t', NULL);
-        $url = '/v1.32/containers/{id}/restart';
+        $url = '/v1.39/containers/{id}/restart';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -559,7 +558,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('signal', 'SIGKILL');
-        $url = '/v1.32/containers/{id}/kill';
+        $url = '/v1.39/containers/{id}/kill';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -575,6 +574,9 @@ class ContainerResource extends Resource
                 return null;
             }
             if ('404' == $response->getStatusCode()) {
+                return (string) $response->getBody();
+            }
+            if ('409' == $response->getStatusCode()) {
                 return (string) $response->getBody();
             }
             if ('500' == $response->getStatusCode()) {
@@ -596,7 +598,7 @@ class ContainerResource extends Resource
     public function containerUpdate($id, $update, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/update';
+        $url = '/v1.39/containers/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
@@ -635,7 +637,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('name');
-        $url = '/v1.32/containers/{id}/rename';
+        $url = '/v1.39/containers/{id}/rename';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -677,7 +679,7 @@ class ContainerResource extends Resource
     public function containerPause($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/pause';
+        $url = '/v1.39/containers/{id}/pause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -713,7 +715,7 @@ class ContainerResource extends Resource
     public function containerUnpause($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/unpause';
+        $url = '/v1.39/containers/{id}/unpause';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -842,7 +844,7 @@ class ContainerResource extends Resource
         $queryParam->setDefault('stdin', false);
         $queryParam->setDefault('stdout', false);
         $queryParam->setDefault('stderr', false);
-        $url = '/v1.32/containers/{id}/attach';
+        $url = '/v1.39/containers/{id}/attach';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -897,7 +899,7 @@ class ContainerResource extends Resource
         $queryParam->setDefault('stdin', false);
         $queryParam->setDefault('stdout', false);
         $queryParam->setDefault('stderr', false);
-        $url = '/v1.32/containers/{id}/attach/ws';
+        $url = '/v1.39/containers/{id}/attach/ws';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -942,7 +944,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('condition', 'not-running');
-        $url = '/v1.32/containers/{id}/wait';
+        $url = '/v1.39/containers/{id}/wait';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -985,7 +987,7 @@ class ContainerResource extends Resource
         $queryParam->setDefault('v', false);
         $queryParam->setDefault('force', false);
         $queryParam->setDefault('link', false);
-        $url = '/v1.32/containers/{id}';
+        $url = '/v1.39/containers/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -1030,7 +1032,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
-        $url = '/v1.32/containers/{id}/archive';
+        $url = '/v1.39/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -1072,7 +1074,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
-        $url = '/v1.32/containers/{id}/archive';
+        $url = '/v1.39/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -1107,6 +1109,7 @@ class ContainerResource extends Resource
      * @param array  $parameters {
      *     @var string $path Path to a directory in the container to extract the archive’s contents into. 
      *     @var string $noOverwriteDirNonDir If “1”, “true”, or “True” then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa.
+     *     @var string $copyUIDGID If “1”, “true”, then it will copy UID/GID maps to the dest file or dir
      * }
      * @param string $fetch      Fetch mode (object or response)
      *
@@ -1117,7 +1120,8 @@ class ContainerResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setRequired('path');
         $queryParam->setDefault('noOverwriteDirNonDir', NULL);
-        $url = '/v1.32/containers/{id}/archive';
+        $queryParam->setDefault('copyUIDGID', NULL);
+        $url = '/v1.39/containers/{id}/archive';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -1166,7 +1170,7 @@ class ContainerResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/containers/prune';
+        $url = '/v1.39/containers/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);

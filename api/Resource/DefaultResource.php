@@ -39,7 +39,7 @@ class DefaultResource extends Resource
         $queryParam->setDefault('since', 0);
         $queryParam->setDefault('timestamps', false);
         $queryParam->setDefault('tail', 'all');
-        $url = '/v1.32/tasks/{id}/logs';
+        $url = '/v1.39/tasks/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));

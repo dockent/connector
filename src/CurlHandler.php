@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 13.11.17
- * Time: 13:20
- */
 
 namespace Dockent\Connector;
 

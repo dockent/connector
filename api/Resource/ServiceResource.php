@@ -26,7 +26,7 @@ class ServiceResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/services';
+        $url = '/v1.39/services';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -65,7 +65,7 @@ class ServiceResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('X-Registry-Auth', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/services/create';
+        $url = '/v1.39/services/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
@@ -109,7 +109,7 @@ class ServiceResource extends Resource
     public function serviceDelete($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/services/{id}';
+        $url = '/v1.39/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -151,7 +151,7 @@ class ServiceResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('insertDefaults', false);
-        $url = '/v1.32/services/{id}';
+        $url = '/v1.39/services/{id}';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -184,7 +184,7 @@ class ServiceResource extends Resource
      * @param string $id ID or name of service.
      * @param array $body 
      * @param array  $parameters {
-     *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes.
+     *     @var int $version The version number of the service object being updated. This is required to avoid conflicting writes. This version number should be the value as currently set on the service *before* the update. You can find the current version by calling `GET /services/{id}`
      *     @var string $registryAuthFrom If the X-Registry-Auth header is not specified, this parameter indicates where to find registry authorization credentials. The valid values are `spec` and `previous-spec`.
      *     @var string $rollback Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case.
      *     @var string $X-Registry-Auth A base64-encoded auth configuration for pulling from private registries. [See the authentication section for details.](#section/Authentication)
@@ -201,7 +201,7 @@ class ServiceResource extends Resource
         $queryParam->setDefault('rollback', NULL);
         $queryParam->setDefault('X-Registry-Auth', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/services/{id}/update';
+        $url = '/v1.39/services/{id}/update';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
@@ -264,7 +264,7 @@ class ServiceResource extends Resource
         $queryParam->setDefault('since', 0);
         $queryParam->setDefault('timestamps', false);
         $queryParam->setDefault('tail', 'all');
-        $url = '/v1.32/services/{id}/logs';
+        $url = '/v1.39/services/{id}/logs';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));

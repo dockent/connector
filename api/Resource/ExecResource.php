@@ -19,7 +19,7 @@ class ExecResource extends Resource
     public function containerExec($id, $execConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/containers/{id}/exec';
+        $url = '/v1.39/containers/{id}/exec';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
@@ -59,7 +59,7 @@ class ExecResource extends Resource
     public function execStart($id, $execStartConfig, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/exec/{id}/start';
+        $url = '/v1.39/exec/{id}/start';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -100,7 +100,7 @@ class ExecResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('h', NULL);
         $queryParam->setDefault('w', NULL);
-        $url = '/v1.32/exec/{id}/resize';
+        $url = '/v1.39/exec/{id}/resize';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -133,7 +133,7 @@ class ExecResource extends Resource
     public function execInspect($id, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/exec/{id}/json';
+        $url = '/v1.39/exec/{id}/json';
         $url = str_replace('{id}', urlencode($id), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));

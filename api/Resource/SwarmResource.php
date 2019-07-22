@@ -17,7 +17,7 @@ class SwarmResource extends Resource
     public function swarmInspect($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/swarm';
+        $url = '/v1.39/swarm';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -55,7 +55,7 @@ class SwarmResource extends Resource
     public function swarmInit($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/swarm/init';
+        $url = '/v1.39/swarm/init';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
@@ -93,7 +93,7 @@ class SwarmResource extends Resource
     public function swarmJoin($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/swarm/join';
+        $url = '/v1.39/swarm/join';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
@@ -133,7 +133,7 @@ class SwarmResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('force', false);
-        $url = '/v1.32/swarm/leave';
+        $url = '/v1.39/swarm/leave';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -177,7 +177,7 @@ class SwarmResource extends Resource
         $queryParam->setDefault('rotateWorkerToken', false);
         $queryParam->setDefault('rotateManagerToken', false);
         $queryParam->setDefault('rotateManagerUnlockKey', false);
-        $url = '/v1.32/swarm/update';
+        $url = '/v1.39/swarm/update';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');
@@ -214,7 +214,7 @@ class SwarmResource extends Resource
     public function swarmUnlockkey($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/swarm/unlockkey';
+        $url = '/v1.39/swarm/unlockkey';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -249,7 +249,7 @@ class SwarmResource extends Resource
     public function swarmUnlock($body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/swarm/unlock';
+        $url = '/v1.39/swarm/unlock';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($body, 'json');

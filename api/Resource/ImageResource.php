@@ -31,7 +31,7 @@ class ImageResource extends Resource
         $queryParam->setDefault('all', false);
         $queryParam->setDefault('filters', NULL);
         $queryParam->setDefault('digests', false);
-        $url = '/v1.32/images/json';
+        $url = '/v1.39/images/json';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -51,64 +51,71 @@ class ImageResource extends Resource
         }
         return $response;
     }
-
     /**
-     * Build an image from a tar archive with a `Dockerfile` in it.
-     *
-     * The `Dockerfile` specifies how the image is built from the tar archive. It is typically in the archive's root, but can be at a different path or have a different name by specifying the `dockerfile` parameter. [See the `Dockerfile` reference for more information](https://docs.docker.com/engine/reference/builder/).
-     *
-     * The Docker daemon performs a preliminary validation of the `Dockerfile` before starting the build, and returns an error if the syntax is incorrect. After that, each instruction is run one-by-one until the ID of the new image is output.
-     *
-     * The build is canceled if the client drops the connection by quitting or being killed.
-     *
-     * @param resource $inputStream A tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
-     * @param array $parameters {
-     * @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
-     * @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
-     * @var string $extrahosts Extra hosts to add to /etc/hosts
-     * @var string $remote A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file’s contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball.
-     * @var bool $q Suppress verbose build output.
-     * @var bool $nocache Do not use the cache when building the image.
-     * @var string $cachefrom JSON array of images used for build cache resolution.
-     * @var string $pull Attempt to pull the image even if an older image exists locally.
-     * @var bool $rm Remove intermediate containers after a successful build.
-     * @var bool $forcerm Always remove intermediate containers, even upon failure.
-     * @var int $memory Set memory limit for build.
-     * @var int $memswap Total memory (memory + swap). Set as `-1` to disable swap.
-     * @var int $cpushares CPU shares (relative weight).
-     * @var string $cpusetcpus CPUs in which to allow execution (e.g., `0-3`, `0,1`).
-     * @var int $cpuperiod The length of a CPU period in microseconds.
-     * @var int $cpuquota Microseconds of CPU time that the container can get in a CPU period.
-     * @var int $buildargs JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)
-     * @var int $shmsize Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB.
-     * @var bool $squash Squash the resulting images layers into a single layer. *(Experimental release only.)*
-     * @var string $labels Arbitrary key/value labels to set on the image, as a JSON map of string pairs.
-     * @var string $networkmode Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to.
-     * @var string $Content -type
-     * @var string $X -Registry-Config This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.
-     *
-     * The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:
-     *
-     * ```
-     * {
-     * "docker.example.com": {
-     * "username": "janedoe",
-     * "password": "hunter2"
-     * },
-     * "https://index.docker.io/v1/": {
-     * "username": "mobydock",
-     * "password": "conta1n3rize14"
-     * }
-     * }
-     * ```
-     *
-     * Only the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API.
-     * }
-     * @param string $fetch Fetch mode (object or response)
-     *
-     * @return \Psr\Http\Message\ResponseInterface|string
-     * @throws \Exception
-     */
+    * Build an image from a tar archive with a `Dockerfile` in it.
+    
+    The `Dockerfile` specifies how the image is built from the tar archive. It is typically in the archive's root, but can be at a different path or have a different name by specifying the `dockerfile` parameter. [See the `Dockerfile` reference for more information](https://docs.docker.com/engine/reference/builder/).
+    
+    The Docker daemon performs a preliminary validation of the `Dockerfile` before starting the build, and returns an error if the syntax is incorrect. After that, each instruction is run one-by-one until the ID of the new image is output.
+    
+    The build is canceled if the client drops the connection by quitting or being killed.
+    
+    *
+    * @param array $inputStream A tar archive compressed with one of the following algorithms: identity (no compression), gzip, bzip2, xz.
+    * @param array  $parameters {
+    *     @var string $dockerfile Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`.
+    *     @var string $t A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters.
+    *     @var string $extrahosts Extra hosts to add to /etc/hosts
+    *     @var string $remote A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file’s contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball.
+    *     @var bool $q Suppress verbose build output.
+    *     @var bool $nocache Do not use the cache when building the image.
+    *     @var string $cachefrom JSON array of images used for build cache resolution.
+    *     @var string $pull Attempt to pull the image even if an older image exists locally.
+    *     @var bool $rm Remove intermediate containers after a successful build.
+    *     @var bool $forcerm Always remove intermediate containers, even upon failure.
+    *     @var int $memory Set memory limit for build.
+    *     @var int $memswap Total memory (memory + swap). Set as `-1` to disable swap.
+    *     @var int $cpushares CPU shares (relative weight).
+    *     @var string $cpusetcpus CPUs in which to allow execution (e.g., `0-3`, `0,1`).
+    *     @var int $cpuperiod The length of a CPU period in microseconds.
+    *     @var int $cpuquota Microseconds of CPU time that the container can get in a CPU period.
+    *     @var string $buildargs JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values.
+    
+    For example, the build arg `FOO=bar` would become `{"FOO":"bar"}` in JSON. This would result in the the query parameter `buildargs={"FOO":"bar"}`. Note that `{"FOO":"bar"}` should be URI component encoded.
+    
+    [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg)
+    
+    *     @var int $shmsize Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB.
+    *     @var bool $squash Squash the resulting images layers into a single layer. *(Experimental release only.)*
+    *     @var string $labels Arbitrary key/value labels to set on the image, as a JSON map of string pairs.
+    *     @var string $networkmode Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to.
+    *     @var string $Content-type 
+    *     @var string $X-Registry-Config This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to.
+    
+    The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example:
+    
+    ```
+    {
+     "docker.example.com": {
+       "username": "janedoe",
+       "password": "hunter2"
+     },
+     "https://index.docker.io/v1/": {
+       "username": "mobydock",
+       "password": "conta1n3rize14"
+     }
+    }
+    ```
+    
+    Only the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API.
+    
+    *     @var string $platform Platform in the format os[/arch[/variant]]
+    *     @var string $target Target build stage
+    * }
+    * @param string $fetch      Fetch mode (object or response)
+    *
+    * @return \Psr\Http\Message\ResponseInterface|string
+    */
     public function imageBuild($inputStream, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
@@ -137,7 +144,9 @@ class ImageResource extends Resource
         $queryParam->setHeaderParameters(array('Content-type'));
         $queryParam->setDefault('X-Registry-Config', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Config'));
-        $url = '/v1.32/build';
+        $queryParam->setDefault('platform', '');
+        $queryParam->setDefault('target', '');
+        $url = '/v1.39/build';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $inputStream;
@@ -149,7 +158,7 @@ class ImageResource extends Resource
         $response = $promise->wait();
         if (self::FETCH_OBJECT == $fetch) {
             if ('200' == $response->getStatusCode()) {
-                return (string) $response->getBody();
+                return null;
             }
             if ('400' == $response->getStatusCode()) {
                 return (string) $response->getBody();
@@ -161,17 +170,33 @@ class ImageResource extends Resource
         return $response;
     }
     /**
-     * 
-     *
-     * @param array  $parameters List of parameters
-     * @param string $fetch      Fetch mode (object or response)
-     *
-     * @return \Psr\Http\Message\ResponseInterface|string
-     */
+    * 
+    *
+    * @param array  $parameters {
+    *     @var int $keep-storage Amount of disk space in bytes to keep for cache
+    *     @var bool $all Remove all types of build cache
+    *     @var string $filters A JSON encoded value of the filters (a `map[string][]string`) to process on the list of build cache objects. Available filters:
+    - `until=<duration>`: duration relative to daemon's time, during which build cache was not used, in Go's duration format (e.g., '24h')
+    - `id=<id>`
+    - `parent=<id>`
+    - `type=<string>`
+    - `description=<string>`
+    - `inuse`
+    - `shared`
+    - `private`
+    
+    * }
+    * @param string $fetch      Fetch mode (object or response)
+    *
+    * @return \Psr\Http\Message\ResponseInterface|string
+    */
     public function buildPrune($parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/build/prune';
+        $queryParam->setDefault('keep-storage', NULL);
+        $queryParam->setDefault('all', NULL);
+        $queryParam->setDefault('filters', NULL);
+        $url = '/v1.39/build/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -201,6 +226,7 @@ class ImageResource extends Resource
      *     @var string $repo Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image.
      *     @var string $tag Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled.
      *     @var string $X-Registry-Auth A base64-encoded auth configuration. [See the authentication section for details.](#section/Authentication)
+     *     @var string $platform Platform in the format os[/arch[/variant]]
      * }
      * @param string $fetch      Fetch mode (object or response)
      *
@@ -215,7 +241,8 @@ class ImageResource extends Resource
         $queryParam->setDefault('tag', NULL);
         $queryParam->setDefault('X-Registry-Auth', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/images/create';
+        $queryParam->setDefault('platform', '');
+        $url = '/v1.39/images/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $inputImage;
@@ -250,7 +277,7 @@ class ImageResource extends Resource
     public function imageInspect($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/images/{name}/json';
+        $url = '/v1.39/images/{name}/json';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -286,7 +313,7 @@ class ImageResource extends Resource
     public function imageHistory($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/images/{name}/history';
+        $url = '/v1.39/images/{name}/history';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -333,7 +360,7 @@ class ImageResource extends Resource
         $queryParam->setDefault('tag', NULL);
         $queryParam->setRequired('X-Registry-Auth');
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/images/{name}/push';
+        $url = '/v1.39/images/{name}/push';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -374,7 +401,7 @@ class ImageResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('repo', NULL);
         $queryParam->setDefault('tag', NULL);
-        $url = '/v1.32/images/{name}/tag';
+        $url = '/v1.39/images/{name}/tag';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -426,7 +453,7 @@ class ImageResource extends Resource
         $queryParam = new QueryParam();
         $queryParam->setDefault('force', false);
         $queryParam->setDefault('noprune', false);
-        $url = '/v1.32/images/{name}';
+        $url = '/v1.39/images/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
@@ -476,7 +503,7 @@ class ImageResource extends Resource
         $queryParam->setRequired('term');
         $queryParam->setDefault('limit', NULL);
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/images/search';
+        $url = '/v1.39/images/search';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -517,7 +544,7 @@ class ImageResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/images/prune';
+        $url = '/v1.39/images/prune';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -564,7 +591,7 @@ class ImageResource extends Resource
         $queryParam->setDefault('author', NULL);
         $queryParam->setDefault('pause', true);
         $queryParam->setDefault('changes', NULL);
-        $url = '/v1.32/commit';
+        $url = '/v1.39/commit';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $this->serializer->serialize($containerConfig, 'json');
@@ -622,7 +649,7 @@ class ImageResource extends Resource
     public function imageGet($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/images/{name}/get';
+        $url = '/v1.39/images/{name}/get';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -662,7 +689,7 @@ class ImageResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('names', NULL);
-        $url = '/v1.32/images/get';
+        $url = '/v1.39/images/get';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -700,7 +727,7 @@ class ImageResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('quiet', false);
-        $url = '/v1.32/images/load';
+        $url = '/v1.39/images/load';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $imagesTarball;

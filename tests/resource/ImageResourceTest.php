@@ -2,16 +2,11 @@
 
 namespace Dockent\Connector\Tests\resource;
 
-use Dockent\Connector\CurlHandler;
 use Dockent\Connector\resource\ImageResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Http\Client\HttpClient;
+use Http\Message\MessageFactory;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use ReflectionException;
 use Symfony\Component\Serializer\Serializer;
 
 /**
@@ -27,15 +22,21 @@ class ImageResourceTest extends TestCase
      */
     private $instance;
 
+    /**
+     * @throws ReflectionException
+     */
     public function setUp()
     {
-        $connectionSettings = [
-            'handler' => HandlerStack::create(new CurlHandler()),
-            'base_uri' => 'http:/'
-        ];
-        $httpClient = new GuzzleAdapter(new Client($connectionSettings));
-        $serializer = new Serializer([], [new JsonEncoder(new JsonEncode(), new JsonDecode())]);
-        $this->instance = new ImageResource($httpClient, new GuzzleMessageFactory(), $serializer);
+        $httpClientMock = $this->getMockForAbstractClass(HttpClient::class);
+        $messageFactoryMock = $this->getMockForAbstractClass(MessageFactory::class);
+        $serializer = $this->getMockForAbstractClass(Serializer::class);
+        $this->instance = new class($httpClientMock, $messageFactoryMock, $serializer) extends ImageResource
+        {
+            public function imageBuild($inputStream, $parameters = array(), $fetch = self::FETCH_OBJECT)
+            {
+                return true;
+            }
+        };
     }
 
     /**
@@ -45,10 +46,5 @@ class ImageResourceTest extends TestCase
     {
         $this->expectOutputString('');
         $this->instance->build(realpath(__DIR__ . '/../dummy/'), ['t' => static::IMAGE_NAME]);
-    }
-
-    public function tearDown()
-    {
-        $this->instance->imageDelete(static::IMAGE_NAME);
     }
 }

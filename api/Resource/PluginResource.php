@@ -24,7 +24,7 @@ class PluginResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('filters', NULL);
-        $url = '/v1.32/plugins';
+        $url = '/v1.39/plugins';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json')), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -58,7 +58,7 @@ class PluginResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('remote');
-        $url = '/v1.32/plugins/privileges';
+        $url = '/v1.39/plugins/privileges';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $queryParam->buildFormDataString($parameters);
@@ -105,7 +105,7 @@ class PluginResource extends Resource
         $queryParam->setDefault('name', NULL);
         $queryParam->setDefault('X-Registry-Auth', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/plugins/pull';
+        $url = '/v1.39/plugins/pull';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost', 'Accept' => array('application/json'), 'Content-Type' => 'application/json'), $queryParam->buildHeaders($parameters));
         $body = $body;
@@ -137,7 +137,7 @@ class PluginResource extends Resource
     public function pluginInspect($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/plugins/{name}/json';
+        $url = '/v1.39/plugins/{name}/json';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -176,7 +176,7 @@ class PluginResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('force', false);
-        $url = '/v1.32/plugins/{name}';
+        $url = '/v1.39/plugins/{name}';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -215,7 +215,7 @@ class PluginResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setDefault('timeout', 0);
-        $url = '/v1.32/plugins/{name}/enable';
+        $url = '/v1.39/plugins/{name}/enable';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -251,7 +251,7 @@ class PluginResource extends Resource
     public function pluginDisable($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/plugins/{name}/disable';
+        $url = '/v1.39/plugins/{name}/disable';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -297,7 +297,7 @@ class PluginResource extends Resource
         $queryParam->setRequired('remote');
         $queryParam->setDefault('X-Registry-Auth', NULL);
         $queryParam->setHeaderParameters(array('X-Registry-Auth'));
-        $url = '/v1.32/plugins/{name}/upgrade';
+        $url = '/v1.39/plugins/{name}/upgrade';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -336,7 +336,7 @@ class PluginResource extends Resource
     {
         $queryParam = new QueryParam();
         $queryParam->setRequired('name');
-        $url = '/v1.32/plugins/create';
+        $url = '/v1.39/plugins/create';
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
         $body = $tarContext;
@@ -368,7 +368,7 @@ class PluginResource extends Resource
     public function pluginPush($name, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/plugins/{name}/push';
+        $url = '/v1.39/plugins/{name}/push';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
@@ -405,7 +405,7 @@ class PluginResource extends Resource
     public function pluginSet($name, array $body, $parameters = array(), $fetch = self::FETCH_OBJECT)
     {
         $queryParam = new QueryParam();
-        $url = '/v1.32/plugins/{name}/set';
+        $url = '/v1.39/plugins/{name}/set';
         $url = str_replace('{name}', urlencode($name), $url);
         $url = $url . ('?' . $queryParam->buildQueryString($parameters));
         $headers = array_merge(array('Host' => 'localhost'), $queryParam->buildHeaders($parameters));
